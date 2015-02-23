@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android=
+    "http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:padding="5dp"
+    android:background="#AAFFFFFF">
+    <ImageView
+        android:contentDescription="@string/blank_icon"
+        android:id="@+id/result_image"
+        android:layout_width="100dp"
+        android:paddingLeft="2dp"
+        android:paddingRight="2dp"
+        android:paddingTop="2dp"
+        android:layout_height="wrap_content"
+        android:src="@drawable/blank_thumb"/>
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/result_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"
+                android:textStyle="bold"/>
+            <TextView
+                android:id="@+id/result_source"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="20sp"/>
+        </LinearLayout>
+        <TextView
+            android:id="@+id/result_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"/>
+    </LinearLayout>
+</LinearLayout>
