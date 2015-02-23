@@ -78,6 +78,7 @@ public class ChooseRecipeActivity extends Activity {
         for(String step : steps) {
             TextView view = new TextView(root.getContext());
             view.setText(step);
+            // Change the background to gray
             view.setBackgroundColor(0xAADEDEDE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
             params.setMargins(5, 5, 5, 5);
