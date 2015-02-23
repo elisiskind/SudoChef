@@ -78,17 +78,43 @@ public class HTMLParser {
                 Log.i("SC.HTMLParser", "Williams Sonoma");
 
                 Element directions = recipeDoc.select("div.directions").first();
-                Elements steps = directions.getElementsByTag("br");
-                for (Element step : steps) {
-                    stepList.add(step.child(0).toString());
+                String tokens[] = directions.toString().split("<br>");
+                for (String step : tokens) {
+                    step = step.replaceAll("<.*?>", "");
+                    step = step.trim();
+                    if(step.isEmpty() || step.contains("Williams-Sonoma")) continue;
+                    stepList.add(step);
                 }
-            }
-            else if (source.equals("Simply Recipes")) {
+            } else if (source.equals("Simply Recipes")) {
+
+                /*TODO: Remove numbers from steps */
                 Log.i("SC.HTMLParser", "Simply Recipes");
                 Element directions = recipeDoc.select("div.instructions").first().child(1);
                 Elements steps = directions.getElementsByTag("p");
                 for (Element step : steps) {
                     stepList.add(step.text());
+                }
+            } else if (source.equals("AllRecipes")) {
+                Log.i("SC.HTMLParser", "AllRecipes");
+                Element directions = recipeDoc.select("div.directions").first().child(1);
+                Elements steps = directions.getElementsByTag("li");
+                for(Element step : steps) {
+                    String text = step.child(0).text();
+                    stepList.add(text);
+                }
+            } else if (source.equals("Food52")) {
+                Log.i("SC.HTMLParser", "Food52");
+                Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
+                for(Element step : steps) {
+                    String text = step.text().trim();
+                    stepList.add(text);
+                }
+            } else if (source.equals("Food52")) {
+                Log.i("SC.HTMLParser", "Food52");
+                Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
+                for(Element step : steps) {
+                    String text = step.text().trim();
+                    stepList.add(text);
                 }
             }
 
