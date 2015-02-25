@@ -56,6 +56,7 @@ public class ProductLookupTable extends SQLiteOpenHelper {
     public LookupEntry search(String s)
     {
         SQLiteDatabase db = this.getReadableDatabase();
+        LookupEntry entry = null;
         Cursor cursor = db.query(TABLE_PRODUCTLOOKUP,
                 new String[] { KEY_SW, KEY_GW, KEY_TYPE, KEY_TTE },
                 KEY_SW + "=?",
@@ -66,11 +67,13 @@ public class ProductLookupTable extends SQLiteOpenHelper {
         {
             cursor.moveToFirst();
         }
-        LookupEntry entry = new LookupEntry(cursor.getString(0),
-                cursor.getString(1),
-                cursor.getString(2),
-                Integer.parseInt(cursor.getString(3)));
-
+        if(cursor.getCount() != 0)
+        {
+            entry = new LookupEntry(cursor.getString(0),
+                    cursor.getString(1),
+                    cursor.getString(2),
+                    Integer.parseInt(cursor.getString(3)));
+        }
         return entry;
     }
 }

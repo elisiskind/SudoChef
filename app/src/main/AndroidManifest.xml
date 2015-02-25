@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
 
     <application
         android:allowBackup="true"
@@ -47,7 +48,8 @@
         </activity>
         <activity
             android:name="sudochef.camera.CamActivity"
-            android:label="@string/title_activity_cam" >
+            android:label="@string/title_activity_cam"
+            android:launchMode = "singleTask">
         </activity>
         <activity
             android:name="sudochef.bluetooth.DeviceListActivity"
@@ -57,6 +59,8 @@
             android:name="sudochef.bluetooth.SendDataActivity"
             android:label="@string/title_activity_send_data" >
         </activity>
+        <service android:name="sudochef.voice.voicelib.SpeechActivationService" >
+        </service>
     </application>
 
 </manifest>

@@ -33,6 +33,7 @@ import sudochef.userInput.MultipleChoiceActivity;
 
 
 public class CamActivity extends Activity {
+    private static final String TAG = "CamActivity";
     ImageView imgFavorite;
     private Uri uri_file;
     static File imagePath;
@@ -46,6 +47,7 @@ public class CamActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Log.d(TAG, "OnCreate");
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         open();
     }
@@ -61,7 +63,7 @@ public class CamActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        // TODO reading an image
+
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode != Activity.RESULT_CANCELED)
         {
@@ -74,10 +76,10 @@ public class CamActivity extends Activity {
                 unpackMultiChoice(data);
             }
         }
+        finish();
     }
 
     private void putInDatabase(String SW, String Gen, int amt, Units unit, ProductTime exp) {
-        // TODO Auto-generated method stub
         new ProductDatabase(this).addProduct(new Product(SW, Gen, amt, unit, exp));
         super.finish();
     }
@@ -133,6 +135,13 @@ public class CamActivity extends Activity {
                 intentMultiChoice.putExtras(b);
                 startActivityForResult(intentMultiChoice, MULTICHOICE_REQ);
             }
+            else if(searchResults.size() == 0)
+            {
+                int amount = 0;
+                Units unit = Units.CUP;
+                ProductTime expireDate = new ProductTime("11 11 1942");
+                putInDatabase(SpecficWord, "", amount, unit, expireDate);
+            }
 
 
         }
@@ -177,7 +186,6 @@ public class CamActivity extends Activity {
             try {
                 image.createNewFile();
             } catch (IOException e) {
-                // TODO Auto-generated catch block
                 e.printStackTrace();
             }
         }

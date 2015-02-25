@@ -79,7 +79,7 @@ public class PLTHelper {
                     dupFlag = true;
                 }
             }
-            if(!dupFlag) { output.add(db.search(inputword)); }
+            if(!dupFlag && temp!= null) { output.add(temp); }
         }
 
         return output;

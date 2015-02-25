@@ -2,6 +2,10 @@ package sudochef.guide;
 
 import android.app.Activity;
 import android.app.Notification;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -13,10 +17,15 @@ import android.widget.ViewFlipper;
 
 import sdp.sudochef.R;
 import sudochef.guide.Step.StepType;
+import sudochef.voice.processing.ReadText;
+import sudochef.voice.voicelib.SpeechActivationService;
 //import sudochef.main.NotificationPublisher;
 
 
 public class GuideActivity extends Activity {
+    ReadText speaker;
+    ReceiveMessages myReceiver = null;
+    Boolean myReceiverIsRegistered = false;
 
     private Recipe recipe;
     private ViewFlipper viewFlipper;
@@ -25,11 +34,65 @@ public class GuideActivity extends Activity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        myReceiver = new ReceiveMessages();
+        speaker = new ReadText(this);
+        String result = "Speak Hello";
+        Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
+        GuideActivity.this.startService(i);
+
         setContentView(R.layout.activity_guide);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewAnimatorSteps);
         makeTestRecipe();
         count = 0;
         recipe.begin();
+    }
+
+    @Override
+    protected void onResume()
+    {
+        super.onResume();
+        if (!myReceiverIsRegistered) {
+            registerReceiver(myReceiver, new IntentFilter("sudochef.voice.processing"));
+            myReceiverIsRegistered = true;
+        }
+    }
+
+    @Override
+    protected void onPause()
+    {
+        super.onPause();
+        if (myReceiverIsRegistered) {
+            unregisterReceiver(myReceiver);
+            myReceiverIsRegistered = false;
+        }
+    }
+
+    @Override
+    protected void onStop()
+    {
+        super.onStop();
+        String result = "Speak Hello";
+        Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
+        GuideActivity.this.stopService(i);
+
+    }
+
+    @Override
+    protected void onDestroy()
+    {
+        super.onStop();
+        speaker.kill();
+    }
+    public class ReceiveMessages extends BroadcastReceiver
+    {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            // TODO Auto-generated method stub
+            executeNextStep(null);
+            String result = "Speak Hello";
+            Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
+            GuideActivity.this.startService(i);
+        }
     }
 
     private void makeTestRecipe() {
@@ -65,6 +128,7 @@ public class GuideActivity extends Activity {
             viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
             viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
             viewFlipper.showNext();
+            speaker.read(text);
 
             if(s.getType() == StepType.NOTIFY) {
                 NotifyStep ns = (NotifyStep) s;
