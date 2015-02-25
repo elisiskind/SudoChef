@@ -3,12 +3,14 @@ package sudochef.voice.processing;
 import java.util.Locale;
 
 import android.content.Context;
+import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 
-public class ReadText implements OnInitListener
+public class ReadText /*extends AsyncTask<String, int, int>*/ implements OnInitListener
 {
+    private static final String TAG = "ReadText";
 	TextToSpeech tts;
 
 	public ReadText(Context t)
@@ -20,12 +22,12 @@ public class ReadText implements OnInitListener
 	@Override
 	public void onInit(int status) {
 		if (status==TextToSpeech.SUCCESS) {
-			Log.d("SUDO", "Text to speech SUCCESS");
+			Log.d(TAG, "Text to speech Initialized");
 		
 			tts.setLanguage(Locale.getDefault());
 		
 		} else {
-			Log.d("SUDO", "Text to speech FAILED");
+			Log.d(TAG, "Text to speech FAILED init");
 			tts = null;
 		}
 	}
@@ -33,13 +35,15 @@ public class ReadText implements OnInitListener
 	@SuppressWarnings("deprecation")
 	public void read(String text)
 	{
-		Log.d("SUDO", "READING TEXT");
+        Log.d(TAG, "READING TEXT");
+        while(tts.isSpeaking()){}
 		 if (!tts.isSpeaking()) {
-		        tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+             Log.d(TAG, "Speaking" + text);
+		     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
 		 }
 		 else
 		 {
-			 Log.d("SUDO", "tts is speaking");
+			 Log.d(TAG, "tts is already speaking");
 		 }
 	}
 	
@@ -63,4 +67,18 @@ public class ReadText implements OnInitListener
 
         }
     }
+
+//    @Override
+//    protected int doInBackground(String... params) {
+//        Log.d(TAG, "READING TEXT");
+//        while(tts.isSpeaking()){}
+//        if (!tts.isSpeaking()) {
+//            Log.d(TAG, "Speaking" + params[0]);
+//            tts.speak(params[0], TextToSpeech.QUEUE_FLUSH, null);
+//        }
+//        else
+//        {
+//            Log.d(TAG, "tts is already speaking");
+//        }
+//    }
 }
