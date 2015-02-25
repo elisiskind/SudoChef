@@ -86,7 +86,7 @@ public class SendDataActivity extends Activity {
             public void onClick(View v) {
                 //sendData("0");
                 try{
-                    outStream.write(0x00);
+                    outStream.write(0x01);
                 }catch (IOException e) {
                     //if the sending fails this is most likely because device is no longer there
                     Toast.makeText(getBaseContext(), "ERROR - Device not found", Toast.LENGTH_SHORT).show();
