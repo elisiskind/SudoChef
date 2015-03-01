@@ -59,6 +59,18 @@
             android:name="sudochef.bluetooth.SendDataActivity"
             android:label="@string/title_activity_send_data" >
         </activity>
+        <activity
+            android:name="sudochef.bluetooth.SendDataOven"
+            android:label="SendDataOven" >
+        </activity>
+        <activity
+            android:name="sudochef.userinput.CustomActivity"
+            android:label="CustomActivity" >
+        </activity>
+        <activity
+            android:name="sudochef.userinput.MultipleChoiceActivity"
+            android:label="MultipleChoiceActivity" >
+        </activity>
         <service android:name="sudochef.voice.voicelib.SpeechActivationService" >
         </service>
     </application>

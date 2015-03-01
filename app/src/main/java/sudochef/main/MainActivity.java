@@ -15,6 +15,8 @@ import sdp.sudochef.R;
 import sudochef.bluetooth.DeviceListActivity;
 import sudochef.camera.CamActivity;
 import sudochef.guide.GuideActivity;
+import sudochef.userinput.CustomActivity;
+import sudochef.userinput.CustomDialogFragment;
 import sudochef.yummly.SearchActivity;
 
 public class MainActivity extends ActionBarActivity {

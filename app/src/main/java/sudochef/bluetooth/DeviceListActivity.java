@@ -17,6 +17,7 @@ import android.widget.Toast;
 import java.util.Set;
 
 import sdp.sudochef.R;
+import sudochef.userinput.MultipleChoiceActivity;
 
 
 public class DeviceListActivity extends Activity {
@@ -31,7 +32,7 @@ public class DeviceListActivity extends Activity {
     // Member fields
     private BluetoothAdapter mBtAdapter;
     private ArrayAdapter<String> mPairedDevicesArrayAdapter;
-
+    private static final int MULTICHOICE_REQ = 3;
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
@@ -54,6 +55,15 @@ public class DeviceListActivity extends Activity {
         pairedListView.setAdapter(mPairedDevicesArrayAdapter);
         pairedListView.setOnItemClickListener(mDeviceClickListener);
         Log.d(TAG, "Done with onCreate");
+        Bundle b=new Bundle();
+        String[] arrin = new String[2];
+        arrin[0]="OVEN";
+        arrin[1]="HOTPLATE";
+        b.putStringArray("List", arrin);
+
+        Intent intentMultiChoice = new Intent(DeviceListActivity.this, MultipleChoiceActivity.class);
+        intentMultiChoice.putExtras(b);
+        startActivityForResult(intentMultiChoice, MULTICHOICE_REQ);
 
     }
 
@@ -76,14 +86,14 @@ public class DeviceListActivity extends Activity {
         Set<BluetoothDevice> pairedDevices = mBtAdapter.getBondedDevices();
 
         // Add previously paired devices to the array
-        if (pairedDevices.size() > 0) {
-            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
-            for (BluetoothDevice device : pairedDevices) {
-                mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
-            }
-        } else {
-            mPairedDevicesArrayAdapter.add("no devices paired");
-        }
+//        if (pairedDevices.size() > 0) {
+//            findViewById(R.id.title_paired_devices).setVisibility(View.VISIBLE);//make title viewable
+//            for (BluetoothDevice device : pairedDevices) {
+//                mPairedDevicesArrayAdapter.add(device.getName() + "\n" + device.getAddress());
+//            }
+//        } else {
+//            mPairedDevicesArrayAdapter.add("no devices paired");
+//        }
     }
 
     //method to check if the device has Bluetooth and if it is on.
@@ -111,11 +121,42 @@ public class DeviceListActivity extends Activity {
             // Get the device MAC address, which is the last 17 chars in the View
             String info = ((TextView) v).getText().toString();
             String address = info.substring(info.length() - 17);
+            Bundle b=new Bundle();
+            String[] arrin = new String[2];
+            arrin[0]="OVEN";
+            arrin[1]="HOTPLATE";
+            b.putStringArray("List", arrin);
 
+            Intent intentMultiChoice = new Intent(DeviceListActivity.this, MultipleChoiceActivity.class);
+            intentMultiChoice.putExtras(b);
+            startActivityForResult(intentMultiChoice, MULTICHOICE_REQ);
             // Make an intent to start next activity while taking an extra which is the MAC address.
-            Intent i = new Intent(DeviceListActivity.this, SendDataActivity.class);
-            i.putExtra(EXTRA_DEVICE_ADDRESS, address);
-            startActivity(i);
+          //  Intent i = new Intent(DeviceListActivity.this,MultipleChoiceActivity.class);
+           // i.putExtra(EXTRA_DEVICE_ADDRESS, address);
+           // startActivity(i);
         }
     };
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "Receiving Activity");
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode != Activity.RESULT_CANCELED)
+            if (requestCode == MULTICHOICE_REQ) {
+                int choice = data.getIntExtra("Output", 0);
+                if (choice == 0) {
+
+                    String address = "30:14:11:25:21:84";
+                    Intent i = new Intent(DeviceListActivity.this, SendDataOven.class);
+                    i.putExtra(EXTRA_DEVICE_ADDRESS, address);
+                    startActivity(i);
+                } else if (choice == 1) {
+                    String address = "30:14:11:25:21:84";
+                    Intent i = new Intent(DeviceListActivity.this, SendDataActivity.class);
+                    i.putExtra(EXTRA_DEVICE_ADDRESS, address);
+                    startActivity(i);
+                }
+            }
+        this.finish();
+    }
+
 }

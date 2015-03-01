@@ -18,6 +18,8 @@ import java.util.UUID;
 import sdp.sudochef.R;
 
 public class SendDataActivity extends Activity {
+
+    String[] blah;
     //Declare buttons & editText
     Button functionOne, functionTwo, functionThree;
 
