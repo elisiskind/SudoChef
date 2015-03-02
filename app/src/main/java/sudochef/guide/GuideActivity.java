@@ -17,6 +17,7 @@ import android.widget.ViewFlipper;
 
 import sdp.sudochef.R;
 import sudochef.guide.Step.StepType;
+import sudochef.parser.KeywordParser;
 import sudochef.voice.processing.ReadText;
 import sudochef.voice.voicelib.SpeechActivationService;
 //import sudochef.main.NotificationPublisher;
@@ -42,7 +43,17 @@ public class GuideActivity extends Activity {
 
         setContentView(R.layout.activity_guide);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewAnimatorSteps);
-        makeTestRecipe();
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String[] recipeSteps = (String[])extras.get("recipe");
+            recipe = new KeywordParser(recipeSteps).parseRecipe();
+        } else {
+            // DO a test recipe instead
+            makeTestRecipe();
+        }
+
+
         count = 0;
         recipe.begin();
     }
@@ -98,14 +109,14 @@ public class GuideActivity extends Activity {
     private void makeTestRecipe() {
         recipe = new Recipe();
 
-        PreheatStep preheat = new PreheatStep(450);
+        PreheatStep preheat = new PreheatStep("Preheat oven to 450.", 450);
         recipe.addStep(preheat);
 
         String s = "This is a sample instruction step. It will be read aloud.";
-        InstructionStep inst = new InstructionStep(s);
+        Step inst = new Step(s);
         recipe.addStep(inst);
 
-        NotifyStep notify = new NotifyStep(30, "Simmer soup", "Simmering soup");
+        NotifyStep notify = new NotifyStep("Simmer soup for 30 minutes.", 30, "Simmer soup", "Simmering soup");
         recipe.addStep(notify);
     }
 

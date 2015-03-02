@@ -6,7 +6,8 @@ public class PreheatStep extends Step {
 
     int temp;
 
-    public PreheatStep(int temp) {
+    public PreheatStep(String text, int temp) {
+        super(text);
         this.temp = temp;
     }
 
