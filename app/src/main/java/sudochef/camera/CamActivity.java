@@ -9,8 +9,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
-import android.support.v4.app.DialogFragment;
-import android.support.v4.app.FragmentActivity;
 import android.util.Log;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -31,9 +29,8 @@ import sudochef.database.ProductLookupTable;
 import sudochef.inventory.Product;
 import sudochef.inventory.ProductTime;
 import sudochef.inventory.Units;
-import sudochef.userinput.CustomActivity;
-import sudochef.userinput.CustomDialogFragment;
-import sudochef.userinput.MultipleChoiceActivity;
+import sudochef.userInput.CustomActivity;
+import sudochef.userInput.MultipleChoiceActivity;
 
 
 public class CamActivity extends Activity {

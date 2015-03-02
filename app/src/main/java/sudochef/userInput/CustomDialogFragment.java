@@ -6,7 +6,10 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
+import android.text.Editable;
 import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
 import android.widget.Toast;
 
 import sdp.sudochef.R;
@@ -17,14 +20,16 @@ import sdp.sudochef.R;
  */
 public class CustomDialogFragment extends DialogFragment {
 
+    LayoutInflater inflater;
     //set up interface to communicate with host activity
     public interface customDialogListener {
-        public void onOkay(String contactDetails);
+        public void onOkay(String[] contactDetails);
         public void onCancel();
     }
 
     customDialogListener dialogListener;
     int resource;
+    EditText ItemNameVal;
 
     public CustomDialogFragment() {
         // TODO Auto-generated constructor stub
@@ -58,8 +63,9 @@ public class CustomDialogFragment extends DialogFragment {
         //build the dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        
+        inflater = getActivity().getLayoutInflater();
+        View v= inflater.inflate(resource, null);
+        // reference to the edittext
         //inflate the layout
         builder.setView(inflater.inflate(resource, null))
                 // Add action buttons
@@ -68,7 +74,15 @@ public class CustomDialogFragment extends DialogFragment {
                     public void onClick(DialogInterface dialog, int id) {
                         // get the users details and pass back to the activity
                         //here we pass dummy details
-                        dialogListener.onOkay("jack@sprat.com|2345678912");
+                        final EditText ed1 = (EditText) getDialog().findViewById(R.id.ItemNameVal);
+                        final EditText ed2 = (EditText) getDialog().findViewById(R.id.AmountVal);
+                        final EditText ed3 = (EditText) getDialog().findViewById(R.id.EditUnitVal);
+                        final EditText ed4 = (EditText) getDialog().findViewById(R.id.ExpireVal);
+                        Editable temp1 = ed1.getText();
+                        Editable temp2 = ed2.getText();
+                        Editable temp3 = ed3.getText();
+                        Editable temp4 = ed4.getText();
+                        dialogListener.onOkay(new String[]{temp1.toString(), temp2.toString(), temp3.toString(), temp4.toString()});
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
