@@ -8,7 +8,9 @@ public class NotifyStep extends Step {
     private String actionVerb;
     private String actionCompleted;
 
-    public NotifyStep(int timeInSec, String actionVerb, String actionCompleted) {
+    public NotifyStep(String text, int timeInSec, String actionVerb, String actionCompleted)
+    {
+        super(text);
         time = timeInSec;
         this.actionVerb = actionVerb;
         this.actionCompleted = actionCompleted;

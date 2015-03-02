@@ -1,15 +1,27 @@
 package sudochef.guide;
 
-public abstract class Step {
+public class Step {
+
+    protected String instructionText;
+    protected StepType stepType;
 
     enum StepType {
         PREHEAT, INSTRUCTION, NOTIFY, FEEDBACK, HOTPLATE, END
     }
 
-    protected StepType stepType;
+    public Step(String text){
+        instructionText = text;
+        this.stepType = StepType.INSTRUCTION;
+    }
 
-    abstract public void execute();
-    abstract public String getText();
+
+    public void execute(){
+
+    };
+
+    public String getText(){
+        return instructionText;
+    }
 
     public StepType getType() {
         return stepType;

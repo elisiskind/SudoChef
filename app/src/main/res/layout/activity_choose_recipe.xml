@@ -5,6 +5,33 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@drawable/background_blurred"
-    android:padding="10dp">
+    android:padding="10dp"
+    android:weightSum="1">
 
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"></LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="346dp"
+        android:id="@+id/scrollView"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="1.01">
+        <LinearLayout
+            android:id="@+id/choose_recipe_layout"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+    </ScrollView>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/start_recipe_button"
+        android:id="@+id/button"
+        android:onClick="startRecipe"
+        android:layout_gravity="center_horizontal" />
 </LinearLayout>

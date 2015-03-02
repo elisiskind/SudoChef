@@ -2,15 +2,18 @@ package sudochef.parser;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import java.util.List;
 
 import sdp.sudochef.R;
+import sudochef.guide.GuideActivity;
 import sudochef.yummly.Config;
 import sudochef.yummly.HTTPGet;
 
@@ -72,7 +75,7 @@ public class ChooseRecipeActivity extends Activity {
      */
     private void display(){
         List<String> steps = parser.getSteps();
-        LinearLayout root = (LinearLayout) findViewById(R.id.choose_recipe_root);
+        LinearLayout root = (LinearLayout) findViewById(R.id.choose_recipe_layout);
 
         // Display each step separately by adding views to the root layout object
         for(String step : steps) {
@@ -80,7 +83,7 @@ public class ChooseRecipeActivity extends Activity {
             view.setText(step);
             // Change the background to gray
             view.setBackgroundColor(0xAADEDEDE);
-            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params.setMargins(5, 5, 5, 5);
             view.setLayoutParams(params);
             view.setPadding(5, 5, 5, 5);
@@ -137,5 +140,12 @@ public class ChooseRecipeActivity extends Activity {
                 e.printStackTrace();
             }
         }
+    }
+
+    public void startRecipe(View view){
+        Intent intent = new Intent(this, GuideActivity.class);
+        List<String> steps = parser.getSteps();
+        intent.putExtra("recipe",  steps.toArray(new String[steps.size()]));
+        startActivity(intent);
     }
 }
