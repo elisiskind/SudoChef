@@ -91,10 +91,15 @@ public class CamActivity extends Activity {
         int amount = Integer.parseInt(arr[1]);
         Units unit = Units.CUP;
         ProductTime expireDate = new ProductTime(arr[3]);
-        putInDatabase(SpecficWord, generalName, amount, unit, expireDate);
+        GregorianCalendar now = new GregorianCalendar();
+        ProductTime ptNow = new ProductTime(now);
+
+        new ProductLookupTable(this).addEntry(new LookupEntry(SpecficWord, generalName, "Type", expireDate.Subtract(ptNow)));
+        putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
+
     }
 
-    private void putInDatabase(String SW, String Gen, int amt, Units unit, ProductTime exp) {
+    private void putInProductDatabase(String SW, String Gen, int amt, Units unit, ProductTime exp) {
         new ProductDatabase(this).addProduct(new Product(SW, Gen, amt, unit, exp));
         super.finish();
     }
@@ -108,7 +113,7 @@ public class CamActivity extends Activity {
         int amount = 0;
         Units unit = Units.CUP;
         ProductTime expireDate = new ProductTime(cal);
-        putInDatabase(SpecficWord, generalName, amount, unit, expireDate);
+        putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
     }
 
     private void decodeImage()
@@ -133,7 +138,7 @@ public class CamActivity extends Activity {
                 int amount = 0;
                 Units unit = Units.CUP;
                 ProductTime expireDate = new ProductTime("11 11 1942");
-                putInDatabase(SpecficWord, generalName, amount, unit, expireDate);
+                putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
             }
             else if(searchResults.size() > 1)
             {
@@ -178,11 +183,14 @@ public class CamActivity extends Activity {
         {
             Toast T = Toast.makeText(this,"Cannot find in database, enter manually:" , Toast.LENGTH_LONG);
             T.show();
+            super.finish();
         }
         else
         {
             Toast T = Toast.makeText(this,"could not read, scan again", Toast.LENGTH_LONG);
             T.show();
+            super.finish();
+
         }
     }
 
