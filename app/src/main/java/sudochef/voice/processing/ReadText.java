@@ -8,7 +8,7 @@ import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
 
-public class ReadText /*extends AsyncTask<String, int, int>*/ implements OnInitListener
+public class ReadText implements OnInitListener
 {
     private static final String TAG = "ReadText";
 	TextToSpeech tts;
@@ -36,7 +36,6 @@ public class ReadText /*extends AsyncTask<String, int, int>*/ implements OnInitL
 	public void read(String text)
 	{
         Log.d(TAG, "READING TEXT");
-        while(tts.isSpeaking()){}
 		 if (!tts.isSpeaking()) {
              Log.d(TAG, "Speaking" + text);
 		     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
