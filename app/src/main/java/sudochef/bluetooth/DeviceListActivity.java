@@ -17,7 +17,7 @@ import android.widget.Toast;
 import java.util.Set;
 
 import sdp.sudochef.R;
-import sudochef.userinput.MultipleChoiceActivity;
+import sudochef.userInput.MultipleChoiceActivity;
 
 
 public class DeviceListActivity extends Activity {

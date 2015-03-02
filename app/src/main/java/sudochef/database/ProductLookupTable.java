@@ -70,9 +70,9 @@ public class ProductLookupTable extends SQLiteOpenHelper {
         if(cursor.getCount() != 0)
         {
             entry = new LookupEntry(cursor.getString(0),
-                    cursor.getString(1),
-                    cursor.getString(2),
-                    Integer.parseInt(cursor.getString(3)));
+                                    cursor.getString(1),
+                                    cursor.getString(2),
+                                    Integer.parseInt(cursor.getString(3)));
         }
         return entry;
     }

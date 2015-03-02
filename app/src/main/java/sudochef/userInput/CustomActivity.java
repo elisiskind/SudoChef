@@ -1,8 +1,10 @@
 package sudochef.userInput;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
+import android.util.Log;
 import android.widget.Toast;
 
 
@@ -12,34 +14,36 @@ import android.widget.Toast;
  */
 public class CustomActivity extends FragmentActivity implements CustomDialogFragment.customDialogListener {
 
-    private String TAG = "dialogs";
-
-    
+    private String TAG = "CustomActivity";
+    private String[] transportArray;
     
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.d(TAG, "Creating Custom Activity");
         super.onCreate(savedInstanceState);
-        boolean v = this.getIntent().getBooleanExtra("VerboseFlag", true);
-        
-        /*button - show the custom dialog*/
-//        Button buttonShowCustomDialog = (Button) findViewById(R.id.button);
-//        buttonShowCustomDialog.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-                showCustomDialog(v);
-//            }
-//        });
+        showCustomDialog();
+
     }
 
 
-    private void showCustomDialog(boolean v) {
+    private void showCustomDialog() {
         DialogFragment newFragment = new CustomDialogFragment();
         newFragment.show(getSupportFragmentManager(), "CustomDialogFragment");
     }
 
+    private void stuff(String[] ItemName)
+    {
+
+        Intent resultData = new Intent();
+        resultData.putExtra("Output", ItemName);
+        setResult(CustomActivity.RESULT_OK, resultData);
+        finish();
+    }
+
     @Override
-    public void onOkay(String contactDetails) {
-        Toast.makeText(this, "Contact details: " + contactDetails, Toast.LENGTH_SHORT).show();
+    public void onOkay(String[] ItemName) {
+        Log.d(TAG, "onOkay");
+        stuff(ItemName);
     }
 
 

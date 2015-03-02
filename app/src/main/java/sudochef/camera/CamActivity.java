@@ -29,6 +29,7 @@ import sudochef.database.ProductLookupTable;
 import sudochef.inventory.Product;
 import sudochef.inventory.ProductTime;
 import sudochef.inventory.Units;
+import sudochef.userInput.CustomActivity;
 import sudochef.userInput.MultipleChoiceActivity;
 
 
@@ -42,6 +43,7 @@ public class CamActivity extends Activity {
 
     private static final int CAM_REQ = 2;
     private static final int MULTICHOICE_REQ = 3;
+    private static final int FORM_REQ = 4;
 
 
     @Override
@@ -63,7 +65,7 @@ public class CamActivity extends Activity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-
+        Log.d(TAG, "Receiving Activity");
         super.onActivityResult(requestCode, resultCode, data);
         if(resultCode != Activity.RESULT_CANCELED)
         {
@@ -75,8 +77,21 @@ public class CamActivity extends Activity {
             {
                 unpackMultiChoice(data);
             }
+            else if(requestCode == FORM_REQ)
+            {
+                unpackForm(data);
+            }
         }
-        finish();
+    }
+
+    private void unpackForm(Intent data) {
+//        int choice = data.getExtra("Output");
+        String arr[] = data.getStringArrayExtra("Output");
+        String generalName = arr[0];
+        int amount = Integer.parseInt(arr[1]);
+        Units unit = Units.CUP;
+        ProductTime expireDate = new ProductTime(arr[3]);
+        putInDatabase(SpecficWord, generalName, amount, unit, expireDate);
     }
 
     private void putInDatabase(String SW, String Gen, int amt, Units unit, ProductTime exp) {
@@ -128,7 +143,7 @@ public class CamActivity extends Activity {
                 for(LookupEntry e : searchResults){ in.add(e.generalWord); }
                 String[] arrin = new String[in.size()];
                 in.toArray(arrin);
-                Log.d("tag", arrin[0]);
+                Log.d(TAG, arrin[0]);
                 b.putStringArray("List", arrin);
 
                 Intent intentMultiChoice = new Intent(CamActivity.this, MultipleChoiceActivity.class);
@@ -137,10 +152,24 @@ public class CamActivity extends Activity {
             }
             else if(searchResults.size() == 0)
             {
-                int amount = 0;
-                Units unit = Units.CUP;
-                ProductTime expireDate = new ProductTime("11 11 1942");
-                putInDatabase(SpecficWord, "", amount, unit, expireDate);
+                Log.i(TAG, "Starting CustomDialog");
+//                Intent intentForm = new Intent(CamActivity.this, CustomActivity.class);
+//                startActivityForResult(intentForm, FORM_REQ);
+                Bundle b=new Bundle();
+                b.putBoolean("VerboseFlag", true);
+                Intent intentGoListActivity = new Intent(CamActivity.this, CustomActivity.class);
+                intentGoListActivity.putExtras(b);
+                startActivityForResult(intentGoListActivity, FORM_REQ);
+//                Bundle b=new Bundle();
+//                List<String> in = new ArrayList<String>();
+//                for(int i = 0; i<5; i++){ in.add("PoP"); }
+//                String[] arrin = new String[in.size()];
+//                in.toArray(arrin);
+//                Log.d(TAG, arrin[0]);
+//                b.putStringArray("List", arrin);
+//                Intent intentMultiChoice = new Intent(CamActivity.this, MultipleChoiceActivity.class);
+//                intentMultiChoice.putExtras(b);
+//                startActivityForResult(intentMultiChoice, MULTICHOICE_REQ);
             }
 
 
