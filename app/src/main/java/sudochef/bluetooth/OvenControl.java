@@ -25,8 +25,7 @@ public class OvenControl extends DeviceControl {
     private static final int Stop = 0x3C;
 
 
-    public OvenControl()
-    {
+    public OvenControl() throws IOException {
         super(MAC);
     }
 
@@ -53,5 +52,11 @@ public class OvenControl extends DeviceControl {
         }
 
         return true;
+    }
+
+    @Override
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
     }
 }

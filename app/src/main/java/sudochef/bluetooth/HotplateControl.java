@@ -13,8 +13,7 @@ public class HotplateControl extends DeviceControl {
     private static final int Off = 0x0F;
 
 
-    public HotplateControl()
-    {
+    public HotplateControl() throws IOException {
         super(MAC);
     }
 
@@ -30,4 +29,9 @@ public class HotplateControl extends DeviceControl {
         sendData(Off);
     }
 
+    @Override
+    protected void finalize() throws Throwable
+    {
+        super.finalize();
+    }
 }
