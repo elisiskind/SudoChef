@@ -20,15 +20,17 @@ public abstract class DeviceControl {
     private OutputStream outStream = null;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     //Constructor
-    public DeviceControl(String MAC)
-    {
+    public DeviceControl(String MAC) throws IOException {
 
+        btAdapter = BluetoothAdapter.getDefaultAdapter();
+        checkBTState();
         BluetoothDevice device = btAdapter.getRemoteDevice(MAC);
         //Attempt to create a bluetooth socket for comms
         try {
             btSocket = device.createRfcommSocketToServiceRecord(MY_UUID);
         } catch (IOException e1) {
             Log.d(TAG, "ERROR - Could not create Bluetooth socket");
+            throw e1;
         }
 
         // Establish the connection.
@@ -37,8 +39,10 @@ public abstract class DeviceControl {
         } catch (IOException e) {
             try {
                 btSocket.close();        //If IO exception occurs attempt to close socket
+                throw e;
             } catch (IOException e2) {
                 Log.d(TAG, "ERROR - Could not close Bluetooth socket");
+                throw e2;
             }
         }
 
@@ -47,6 +51,8 @@ public abstract class DeviceControl {
             outStream = btSocket.getOutputStream();
         } catch (IOException e) {
             Log.d(TAG, "ERROR - Could not create bluetooth outstream");
+            btSocket.close();
+            throw e;
         }
     }
 
@@ -61,4 +67,36 @@ public abstract class DeviceControl {
             throw e;
         }
     }
+
+    private void checkBTState() throws IOException{
+        // Check device has Bluetooth and that it is turned on
+        if(btAdapter==null) throw new IOException();
+        else {
+            if (btAdapter.isEnabled()) {
+
+            } else {
+                throw new IOException();
+            }
+        }
+    }
+
+    public void close(){
+        try {
+            btSocket.close();
+        } catch (IOException e) {
+            Log.d(TAG, "Could not close socket");
+        }
+        try {
+            outStream.close();
+        } catch (IOException e) {
+            Log.d(TAG, "Could not close stream");
+        }
+    }
+
+    @Override
+    protected void finalize() throws Throwable
+    {
+        this.close();
+    }
+
 }
