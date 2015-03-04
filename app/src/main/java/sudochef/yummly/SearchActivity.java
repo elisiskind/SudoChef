@@ -29,17 +29,17 @@ import sudochef.parser.ChooseRecipeActivity;
 public class SearchActivity extends ListActivity
         implements AbsListView.OnScrollListener {
 
-    String response;
-    ProgressDialog progressDialog;
-    int numResults = 0;
-    int max = 0;
-    int index = 0;
-    SearchCall call;
-    RecipeResult results[];
-    ArrayList<RecipeResult> resultsList;
-    SearchResultAdapter adapter;
-    ListView listView;
+    private String response;
+    private ProgressDialog progressDialog;
+    private int numResults = 0;
+    private int max = 0;
+    private int index = 0;
+    private SearchCall call;
+    private ArrayList<RecipeResult> resultsList;
+    private SearchResultAdapter adapter;
+    private ListView listView;
 
+    private final String TAG = "SC.Search";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +55,7 @@ public class SearchActivity extends ListActivity
             public void onScrollStateChanged(AbsListView view, int scrollState) {
                 if(numResults < max) {
                     if (scrollState == SCROLL_STATE_IDLE) {
-                        Log.d("SC.Search", "Checking if more results available.");
+                        Log.d(TAG, "Checking if more results available.");
                         if (listView.getLastVisiblePosition() >= listView.getCount() - 1) {
                             call.nextPage();
 
@@ -63,13 +63,13 @@ public class SearchActivity extends ListActivity
                             new AsyncSearch().execute(call.buildString());
                         }
                     } else {
-                        Log.d("SC.Search", "Scroll state is not idle");
+                        Log.d(TAG, "Scroll state is not idle");
                     }
                 } else {
-                    Log.d("SC.Search", "End of results");
+                    Log.d(TAG, "End of results");
                 }
 
-                Log.d("SC.Search", "Scrolled");
+                Log.d(TAG, "Scrolled");
             }
 
             @Override
@@ -92,7 +92,7 @@ public class SearchActivity extends ListActivity
     @Override
     public void onScroll(AbsListView view, int firstVisibleItem,
                          int visibleItemCount, int totalItemCount) {
-        Log.d("SC.Search", "Scrolled");
+        Log.d(TAG, "Scrolled");
     }
 
     @Override
@@ -107,21 +107,21 @@ public class SearchActivity extends ListActivity
                     new AsyncSearch().execute(call.buildString());
                 }
             } else {
-                Log.d("SC.Search", "Scroll state is not idle");
+                Log.d(TAG, "Scroll state is not idle");
             }
         } else {
-            Log.d("SC.Search", "End of results");
+            Log.d(TAG, "End of results");
         }
 
-        Log.d("SC.Search", "Scrolled");
+        Log.d(TAG, "Scrolled");
 
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
-        Log.d("SC.Search", "List item click");
+        Log.d(TAG, "List item click");
         v.setBackgroundColor(0xFFAEAEAE);
-        select(results[position].getId());
+        select(resultsList.get(position).getId());
         v.setBackgroundColor(0xFFDEDEDE);
     }
 
@@ -131,7 +131,7 @@ public class SearchActivity extends ListActivity
         // Get input from button
         EditText searchInput = (EditText)findViewById(R.id.searchText);
         String query = searchInput.getText().toString();
-        Log.d("SC.Search", "Starting search with query " + query);
+        Log.d(TAG, "Starting search with query " + query);
 
         // Build search API call
         call = new SearchCall();
@@ -139,7 +139,7 @@ public class SearchActivity extends ListActivity
 
         // Use async method for search
         new AsyncSearch().execute(call.buildString());
-        progressDialog.setMessage("Loading. Please wait...");
+        progressDialog.setMessage("Fetching some recipes for you...");
         progressDialog.setCancelable(false);
         progressDialog.show();
     }
@@ -148,39 +148,79 @@ public class SearchActivity extends ListActivity
         //getListView().removeAllViews();
         response = null;
         numResults = 0;
+        if(resultsList != null) { resultsList.clear(); }
+        max = 0;
         index = 0;
-        results = null;
         adapter = null;
     }
 
     public void searchComplete(String result) throws Exception {
+
         progressDialog.dismiss();
+
+        // Parse results
         Parser parser = new Parser(result);
         Response response = parser.ParseResponse();
 
-        if(results == null)
+        // Add results to results list
+        updateResults(response);
+
+        // Update array adapter to show new items
+        updateAdapter();
+
+        // Load thumbnails
+        //loadThumbs();
+
+        Log.d(TAG, "Results: " + numResults + " Max: " + max);
+
+        // If we haven't filled the page, load more results
+        if(index < 10 && numResults < max) {
+
+            Log.d(TAG, "Loading another page");
+            call.nextPage();
+
+            // Use async method for search
+            new AsyncSearch().execute(call.buildString());
+        }
+    }
+
+    private void updateResults(Response response) {
+        if(resultsList == null)
         {
-            results = new RecipeResult[response.getCount()];
+           resultsList = new ArrayList<>();
         }
 
         for(int i = 0; i < response.getMatches().length; i++) {
-            results[index++] = response.getMatches()[i];
+            RecipeResult match = response.getMatches()[i];
+            if(YummlySources.getAllowedString().contains(match.getSource())) {
+                resultsList.add(index++, response.getMatches()[i]);
+            }
+
+            numResults++;
         }
 
-        Log.d("SC.Search", "Creating adapter");
-        if(adapter == null) adapter = new SearchResultAdapter(this, R.layout.list_row, results);
-        Log.d("SC.Search", "Setting adapter");
-        getListView().setAdapter(adapter);
+        max = response.getCount();
+    }
 
-        Log.d("SC.Search", "Did it work?");
+    private void updateAdapter() {
+        if(adapter == null) {
+            Log.d(TAG, "Creating adapter");
+            adapter = new SearchResultAdapter(this, R.layout.list_row, resultsList);
+            Log.d(TAG, "Setting adapter");
+            getListView().setAdapter(adapter);
+        }
 
-        for(int i = 0; i < results.length; i++){
-            //   new ThumbLoader().execute(i);
+        adapter.notifyDataSetChanged();
+    }
+
+    private void loadThumbs(){
+        for(int i = 0; i < resultsList.size(); i++){
+            new ThumbLoader().execute(i);
         }
     }
 
     public void select(String id) {
-        Log.d("SC.Search", "Recipe selected with ID: " + id);
+        Log.d(TAG, "Recipe selected with ID: " + id);
 
         Intent intent = new Intent(this, ChooseRecipeActivity.class);
         intent.putExtra("recipeId", id);
@@ -190,13 +230,13 @@ public class SearchActivity extends ListActivity
     private class AsyncSearch extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... urls) {
-            Log.d("SC.Search", "Starting Async HTTP GET for yummmly search call.");
+            Log.d(TAG, "Starting Async HTTP GET for yummmly search call.");
             return new HTTPGet().stringGET(urls[0]);
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(String result) {
-            Log.d("SC.Search", "Async HTTP GET for yummmly search call returned.");
+            Log.d(TAG, "Async HTTP GET for yummmly search call returned.");
             try {
                 searchComplete(result);
             } catch (Exception e) {
@@ -212,15 +252,15 @@ public class SearchActivity extends ListActivity
 
         @Override
         protected Integer doInBackground(Integer... params) {
-            Log.d("SC.Search", "Async HTTP GET for thumb sent.");
+            Log.d(TAG, "Async HTTP GET for thumb sent.");
             index = params[0];
-            results[index].loadThumb();
+            resultsList.get(index).loadThumb();
             return 1;
         }
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(Integer result) {
-            Log.d("SC.Search", "Async HTTP GET for thumb returned.");
+            Log.d(TAG, "Async HTTP GET for thumb returned.");
             ImageView thumb = (ImageView)(getListView().getChildAt(index));
             scaleImage(thumb, 100);
             thumb.refreshDrawableState();

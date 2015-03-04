@@ -9,6 +9,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 import sdp.sudochef.R;
 
 /**
@@ -17,9 +19,9 @@ import sdp.sudochef.R;
 public class SearchResultAdapter extends ArrayAdapter<RecipeResult> {
     Context context;
     int layoutResourceId;
-    RecipeResult results[] = null;
+    ArrayList<RecipeResult> results = null;
 
-    public SearchResultAdapter(Context context, int layoutResourceId, RecipeResult[] results) {
+    public SearchResultAdapter(Context context, int layoutResourceId, ArrayList<RecipeResult> results) {
         super(context, layoutResourceId, results);
         this.layoutResourceId = layoutResourceId;
         this.context = context;
@@ -52,7 +54,7 @@ public class SearchResultAdapter extends ArrayAdapter<RecipeResult> {
             holder = (ResultHolder)row.getTag();
         }
 
-        RecipeResult result = results[position];
+        RecipeResult result = results.get(position);
         holder.txtTitle.setText(result.getName());
         holder.txtSource.setText(" " + result.getSource());
         holder.txtDesc.setText(result.descriptionString());
