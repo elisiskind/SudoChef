@@ -130,6 +130,7 @@ public class GuideActivity extends Activity {
         if (recipe.hasNext()) {
 
             s = recipe.nextStep();
+            s.setContext(getApplicationContext());
 
             // Add next step to flipper
             String text = s.getText();

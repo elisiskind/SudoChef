@@ -1,9 +1,12 @@
 package sudochef.guide;
 
+import android.content.Context;
+
 public class Step {
 
     protected String instructionText;
     protected StepType stepType;
+    protected Context context;
 
     enum StepType {
         PREHEAT, INSTRUCTION, NOTIFY, FEEDBACK, HOTPLATE, END
@@ -14,6 +17,9 @@ public class Step {
         this.stepType = StepType.INSTRUCTION;
     }
 
+    public void setContext(Context context) {
+        this.context = context;
+    }
 
     public void execute(){
 
