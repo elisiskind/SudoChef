@@ -74,50 +74,71 @@ public class HTMLParser {
 
         // Check out the source, and parse according to the formatting of that website
         try {
-            if (source.equals("Williams-Sonoma")) {
-                Log.i("SC.HTMLParser", "Williams Sonoma");
 
-                Element directions = recipeDoc.select("div.directions").first();
-                String tokens[] = directions.toString().split("<br>");
-                for (String step : tokens) {
-                    step = step.replaceAll("<.*?>", "");
-                    step = step.trim();
-                    if(step.isEmpty() || step.contains("Williams-Sonoma")) continue;
-                    stepList.add(step);
+            switch(source) {
+                case "Williams-Sonoma": {
+                    Log.i("SC.HTMLParser", "Williams Sonoma");
+
+                    Element directions = recipeDoc.select("div.directions").first();
+                    String tokens[] = directions.toString().split("<br>");
+                    for (String step : tokens) {
+                        step = step.replaceAll("<.*?>", "");
+                        step = step.trim();
+                        if (step.isEmpty() || step.contains("Williams-Sonoma")) continue;
+                        stepList.add(step);
+                    }
+                    break;
                 }
-            } else if (source.equals("Simply Recipes")) {
+                case "Simply Recipes": {
 
                 /*TODO: Remove numbers from steps */
-                Log.i("SC.HTMLParser", "Simply Recipes");
-                Element directions = recipeDoc.select("div.instructions").first().child(1);
-                Elements steps = directions.getElementsByTag("p");
-                for (Element step : steps) {
-                    stepList.add(step.text());
+                    Log.i("SC.HTMLParser", "Simply Recipes");
+                    Element directions = recipeDoc.select("div.instructions").first().child(1);
+                    Elements steps = directions.getElementsByTag("p");
+                    for (Element step : steps) {
+                        stepList.add(step.text());
+                    }
+                    break;
                 }
-            } else if (source.equals("AllRecipes")) {
-                Log.i("SC.HTMLParser", "AllRecipes");
-                Element directions = recipeDoc.select("div.directions").first().child(1);
-                Elements steps = directions.getElementsByTag("li");
-                for(Element step : steps) {
-                    String text = step.child(0).text();
-                    stepList.add(text);
+                case "AllRecipes": {
+                    Log.i("SC.HTMLParser", "AllRecipes");
+                    Element directions = recipeDoc.select("div.directions").first().child(1);
+                    Elements steps = directions.getElementsByTag("li");
+                    for (Element step : steps) {
+                        String text = step.child(0).text();
+                        stepList.add(text);
+                    }
+                    break;
                 }
-            } else if (source.equals("Food52")) {
-                Log.i("SC.HTMLParser", "Food52");
-                Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
-                for(Element step : steps) {
-                    String text = step.text().trim();
-                    stepList.add(text);
+                case "Food52": {
+                    Log.i("SC.HTMLParser", "Food52");
+                    Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
+                    for (Element step : steps) {
+                        String text = step.text().trim();
+                        stepList.add(text);
+                    }
+                    break;
                 }
-            } else if (source.equals("Food52")) {
-                Log.i("SC.HTMLParser", "Food52");
-                Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
-                for(Element step : steps) {
-                    String text = step.text().trim();
-                    stepList.add(text);
+                case "Serious Eats": {
+                    Log.i("SC.HTMLParser", "Serious Eats");
+                    Elements steps = recipeDoc.select("div.procedure-text");
+                    for (Element step : steps) {
+                        String text = step.child(1).text();
+                        stepList.add(text);
+                    }
+                    break;
+                }
+                case "MyRecipes": {
+                    Log.i("SC.HTMLParser", "MyRecipes");
+                    Element directions = recipeDoc.select("div.field-instructions").first().child(0).child(0);
+                    Elements steps = directions.getElementsByTag("p");
+                    for (Element step : steps) {
+                        String text = step.text();
+                        stepList.add(text);
+                    }
+                    break;
                 }
             }
-
         } catch (Exception e) {
             Log.e("SC.HTMLParser", "HTML Parsing failed.");
             e.printStackTrace();
