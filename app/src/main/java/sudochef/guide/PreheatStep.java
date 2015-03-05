@@ -49,7 +49,9 @@ public class PreheatStep extends Step {
             Log.d(TAG, "Starting Async preheat oven signal at " + temp[0] + " degrees.");
 
             try {
-                new OvenControl().preHeat(temp[0]);
+                OvenControl ovenController = new OvenControl();
+                ovenController.preHeat(temp[0]);
+                ovenController.close();
             } catch (Exception e) {
                 CharSequence text = "Failed to send preheat signal";
                 int duration = Toast.LENGTH_SHORT;
