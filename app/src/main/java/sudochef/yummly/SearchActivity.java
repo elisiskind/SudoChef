@@ -23,6 +23,8 @@ import android.widget.ProgressBar;
 import java.util.ArrayList;
 
 import sdp.sudochef.R;
+import sudochef.database.ProductDatabase;
+import sudochef.inventory.Product;
 import sudochef.parser.ChooseRecipeActivity;
 
 
@@ -133,6 +135,20 @@ public class SearchActivity extends ListActivity
         String query = searchInput.getText().toString();
         Log.d(TAG, "Starting search with query " + query);
 
+        makeCall(query);
+    }
+
+    public void searchByExpireDate(View view) throws  Exception
+    {
+        reset();
+        Product expireSoon = new ProductDatabase(this).getClosestToExpire();
+
+        EditText searchInput = (EditText)findViewById(R.id.searchText);
+        searchInput.setText(expireSoon.generalName);
+        makeCall(expireSoon.generalName);
+    }
+
+    private void makeCall(String query) throws Exception {
         // Build search API call
         call = new SearchCall();
         call.setQuery(query);

@@ -163,5 +163,29 @@ public class ProductDatabase extends SQLiteOpenHelper {
         return contactList;
     }
 
+    public Product getClosestToExpire()
+    {
+        Product output = null;
+        List<Product> all = getAllProducts();
+
+        for(Product p : all)
+        {
+            if(output == null)
+            {
+                output = p;
+                continue;
+            }
+            if(p.date.Subtract(output.date) < 0)
+            {
+                output = p;
+            }
+
+        }
+
+
+        return output;
+    }
+
+
 
 }
