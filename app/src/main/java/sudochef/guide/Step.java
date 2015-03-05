@@ -25,6 +25,10 @@ public class Step {
 
     };
 
+    public Context getContext() {
+        return context;
+    }
+
     public String getText(){
         return instructionText;
     }
