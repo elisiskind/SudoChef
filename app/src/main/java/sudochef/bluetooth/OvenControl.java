@@ -76,6 +76,15 @@ public class OvenControl extends DeviceControl {
         OvenTemp = roundedTemp;
         return true;
     }
+   public boolean stopOven() throws IOException {
+       sendData(Stop);
+       return true;
+   }
+   public boolean timer(int time) throws IOException{
+        //Implement time class
+        return true;
+   }
+
 
     @Override
     protected void finalize() throws Throwable
