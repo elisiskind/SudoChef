@@ -24,13 +24,7 @@ public class PreheatStep extends Step {
     @Override
     public void execute() {
         try {
-            new OvenControl().preHeat(temp);
-
-            CharSequence text = "Oven preheated to " + this.temp;
-            int duration = Toast.LENGTH_SHORT;
-
-            Toast toast = Toast.makeText(this.context, text, duration);
-            toast.show();
+            new AsyncPreheatSignal().execute(temp);
 
         } catch(Exception e) {
 
@@ -53,6 +47,9 @@ public class PreheatStep extends Step {
                 ovenController.preHeat(temp[0]);
                 ovenController.close();
             } catch (Exception e) {
+
+                Log.e(TAG, "Failed to preheat");
+
                 CharSequence text = "Failed to send preheat signal";
                 int duration = Toast.LENGTH_SHORT;
 
@@ -66,19 +63,13 @@ public class PreheatStep extends Step {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(Boolean result) {
-            Log.d(TAG, "Async HTTP GET for yummmly search call returned.");
-            try {
+            Log.d(TAG, "The oven preheated in theory");
 
-                CharSequence text = "Oven preheated to " + getTemp();
-                int duration = Toast.LENGTH_SHORT;
+            CharSequence text = "Oven preheated to " + getTemp();
+            int duration = Toast.LENGTH_SHORT;
 
-                Toast toast = Toast.makeText(getContext(), text, duration);
-                toast.show();
-
-            } catch (Exception e) {
-                // TODO Auto-generated catch block
-                e.printStackTrace();
-            }
+            Toast toast = Toast.makeText(getContext(), text, duration);
+            toast.show();
         }
     }
 

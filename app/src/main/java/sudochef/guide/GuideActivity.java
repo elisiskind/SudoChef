@@ -147,6 +147,9 @@ public class GuideActivity extends Activity {
                 scheduleNotification(getNotification(ns.getNotificationText()), ns.getTime() * 1000);
                 Log.d("NOTIFY", "Setting notification");
             }
+
+            Log.i("SC.Guide", "Executing step yo");
+
             s.execute();
         } else {
             // Add end step to flipper

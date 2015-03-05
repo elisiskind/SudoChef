@@ -1,6 +1,5 @@
 package sudochef.bluetooth;
 
-import android.bluetooth.BluetoothClass;
 import android.util.Log;
 
 import java.io.IOException;
@@ -46,7 +45,7 @@ public class OvenControl extends DeviceControl {
         if(roundedTemp - OvenTemp > 0)
         {
             //For every interation of 5, loop and send an instruct
-            for (int i = 0; i < (roundedTemp - OvenTemp) / 5; i+=25) {
+            for (int i = 0; i < (roundedTemp - OvenTemp); i+=25) {
                 Log.d(TAG, "Up");
                 sendData(Up); //Raise temp by 5
                 try {
@@ -58,7 +57,7 @@ public class OvenControl extends DeviceControl {
         else if(roundedTemp - OvenTemp < 0)
         {
             //For every interation of 5, loop and send an instruct
-            for (int i = 0; i < (Math.abs(roundedTemp - OvenTemp)) / 5; i+=25) {
+            for (int i = 0; i < (Math.abs(roundedTemp - OvenTemp)); i+=25) {
                 Log.d(TAG, "Down");
                 sendData(Down); //decrease temp by 5
                 try {
