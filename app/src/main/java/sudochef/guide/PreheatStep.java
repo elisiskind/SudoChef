@@ -23,12 +23,7 @@ public class PreheatStep extends Step {
 
     @Override
     public void execute() {
-        try {
-            new AsyncPreheatSignal().execute(temp);
-
-        } catch(Exception e) {
-
-        }
+        new AsyncPreheatSignal().execute(temp);
         Log.i("Preheat", "Sending preheat signal: " + temp);
     }
 
@@ -42,34 +37,44 @@ public class PreheatStep extends Step {
         protected Boolean doInBackground(Integer... temp) {
             Log.d(TAG, "Starting Async preheat oven signal at " + temp[0] + " degrees.");
 
+            Boolean success;
+
             try {
                 OvenControl ovenController = new OvenControl();
                 ovenController.preHeat(temp[0]);
                 ovenController.close();
+                success = true;
+                Log.d(TAG, "Sent a preheat signal");
             } catch (Exception e) {
-
-                Log.e(TAG, "Failed to preheat");
-
-                CharSequence text = "Failed to send preheat signal";
-                int duration = Toast.LENGTH_SHORT;
-
-                Toast toast = Toast.makeText(getContext(), text, duration);
-                toast.show();
+                Log.d(TAG, "Preheat exception caught");
+                success = false;
             }
 
-            return true;
+            return success;
         }
 
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(Boolean result) {
-            Log.d(TAG, "The oven preheated in theory");
 
-            CharSequence text = "Oven preheated to " + getTemp();
+            Toast toast;
             int duration = Toast.LENGTH_SHORT;
 
-            Toast toast = Toast.makeText(getContext(), text, duration);
+            if(result) {
+                Log.d(TAG, "The oven preheated in theory");
+
+                CharSequence text = "Oven preheated to " + getTemp();
+                toast = Toast.makeText(getContext(), text, duration);
+
+            } else {
+                Log.e(TAG, "Failed to preheat");
+
+                CharSequence text = "Failed to send preheat signal";
+                toast = Toast.makeText(getContext(), text, duration);
+            }
+
             toast.show();
+
         }
     }
 
