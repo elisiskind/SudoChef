@@ -24,33 +24,57 @@ public class OvenControl extends DeviceControl {
     private static final int Enter = 0x2C;
     private static final int Stop = 0x3C;
 
+    private static int OvenTemp = 350;
+
 
     public OvenControl() throws IOException {
         super(MAC);
     }
 
     public boolean preHeat(int temp) throws IOException {
-        double roundedTemp;
-        roundedTemp = Math.floor((temp / 5.0)) * 5;
+        int roundedTemp;
+        roundedTemp = (int) Math.floor((temp / 25.0)) * 25;
 
         //Send Bake Instruct
+        Log.d(TAG, "Bake");
         sendData(Bake);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
 
-        if(roundedTemp - 350 > 0)
+        if(roundedTemp - OvenTemp > 0)
         {
             //For every interation of 5, loop and send an instruct
-            for (int i = 0; i < (roundedTemp - 350) / 5; i++) {
+            for (int i = 0; i < (roundedTemp - OvenTemp) / 5; i+=25) {
+                Log.d(TAG, "Up");
                 sendData(Up); //Raise temp by 5
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
             }
         }
-        else if(roundedTemp - 350 < 0)
+        else if(roundedTemp - OvenTemp < 0)
         {
             //For every interation of 5, loop and send an instruct
-            for (int i = 0; i < (Math.abs(roundedTemp - 350)) / 5; i++) {
-                sendData(Down); //Raise temp by 5
+            for (int i = 0; i < (Math.abs(roundedTemp - OvenTemp)) / 5; i+=25) {
+                Log.d(TAG, "Down");
+                sendData(Down); //decrease temp by 5
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                }
             }
         }
 
+        Log.d(TAG, "Enter");
+        sendData(Enter);
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+        }
+        OvenTemp = roundedTemp;
         return true;
     }
 

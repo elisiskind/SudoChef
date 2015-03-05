@@ -9,8 +9,8 @@ public class HotplateControl extends DeviceControl {
     private final String TAG = "OvenControl";
     private static final String MAC = "30:14:11:25:21:84";
     private static final int Low = 0xFF;
-    private static final int High = 0xF0;
-    private static final int Off = 0x0F;
+    private static final int High = 0x18;
+    private static final int Off = 0x01;
 
 
     public HotplateControl() throws IOException {

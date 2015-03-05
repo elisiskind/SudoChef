@@ -60,6 +60,7 @@ public abstract class DeviceControl {
 
         try {
             //attempt to place data on the outstream to the BT device
+            Log.d(TAG, "Sending:" + message);
             outStream.write(message);
         } catch (IOException e) {
             //if the sending fails this is most likely because device is no longer there

@@ -24,6 +24,7 @@ public class SendDataOven extends Activity {
     private BluetoothSocket btSocket = null;
     private OutputStream outStream = null;
 
+//    OvenControl oven = null;
     // UUID service - This is the type of Bluetooth device that the BT module is
     // It is very likely yours will be the same, if not google UUID for your manufacturer
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
@@ -51,7 +52,11 @@ public class SendDataOven extends Activity {
         TIMER = (Button) findViewById(R.id.TIMER);
         ENTER = (Button) findViewById(R.id.ENTER);
         STOP = (Button) findViewById(R.id.STOP);
-
+//        try {
+//            oven = new OvenControl();
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         btAdapter = BluetoothAdapter.getDefaultAdapter();
         checkBTState();
 
@@ -60,6 +65,7 @@ public class SendDataOven extends Activity {
                 // sendData("1");
                 try{
                     outStream.write(0xFF);
+//                    oven.preHeat(400);
                 }catch (IOException e) {
                     //if the sending fails this is most likely because device is no longer there
                     Toast.makeText(getBaseContext(), "ERROR - Device not found", Toast.LENGTH_SHORT).show();
@@ -222,18 +228,6 @@ public class SendDataOven extends Activity {
                 Toast.makeText(getBaseContext(), "low", Toast.LENGTH_SHORT).show();
             }
         });
-
-
-
-
-
-
-
-
-
-
-
-
     }
 
 
@@ -275,7 +269,7 @@ public class SendDataOven extends Activity {
         }
         //When activity is resumed, attempt to send a piece of junk data ('x') so that it will fail if not connected
         // i.e don't wait for a user to press button to recognise connection failure
-        sendData("x");
+//        sendData("x");
     }
 
     @Override
