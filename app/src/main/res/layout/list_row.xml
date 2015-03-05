@@ -5,7 +5,9 @@
     android:layout_height="wrap_content"
     android:orientation="horizontal"
     android:padding="5dp"
-    android:background="#AAFFFFFF">
+    android:layout_margin="10dp"
+    android:layout_marginBottom="8dp"
+    android:background="@drawable/list_item">
     <ImageView
         android:contentDescription="@string/blank_icon"
         android:id="@+id/result_image"

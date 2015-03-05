@@ -1,4 +1,4 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/choose_recipe_root"
     android:layout_width="match_parent"
@@ -8,18 +8,14 @@
     android:padding="10dp"
     android:weightSum="1">
 
-
-    <LinearLayout
-        android:orientation="vertical"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"></LinearLayout>
-
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="346dp"
         android:id="@+id/scrollView"
         android:layout_gravity="center_horizontal"
-        android:layout_weight="1.01">
+        android:layout_weight="0.87"
+        android:layout_above="@+id/button"
+        android:layout_alignParentTop="true">
         <LinearLayout
             android:id="@+id/choose_recipe_layout"
             android:orientation="vertical"
@@ -28,10 +24,15 @@
     </ScrollView>
 
     <Button
-        android:layout_width="wrap_content"
+        android:layout_width="192dp"
         android:layout_height="wrap_content"
         android:text="@string/start_recipe_button"
         android:id="@+id/button"
+        android:textSize="24sp"
         android:onClick="startRecipe"
-        android:layout_gravity="center_horizontal" />
-</LinearLayout>
+        android:background="@drawable/mybutton"
+        android:layout_gravity="center_horizontal"
+        android:layout_weight="0.07"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true" />
+</RelativeLayout>

@@ -42,6 +42,6 @@
     <string name="title_activity_cam">CamActivity</string>
     <string name="title_activity_device_list">DeviceListActivity</string>
     <string name="title_activity_send_data">SendDataActivity</string>
-    <string name="button_send_database">Food about to get old search</string>
+    <string name="button_send_database">Suggest Recipes</string>
 
 </resources>

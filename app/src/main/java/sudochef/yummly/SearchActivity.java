@@ -2,6 +2,7 @@ package sudochef.yummly;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Matrix;
@@ -10,15 +11,17 @@ import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
-import android.widget.ProgressBar;
+import android.widget.TextView;
+import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
 
@@ -28,10 +31,8 @@ import sudochef.inventory.Product;
 import sudochef.parser.ChooseRecipeActivity;
 
 
-public class SearchActivity extends ListActivity
-        implements AbsListView.OnScrollListener {
+public class SearchActivity extends ListActivity {
 
-    private String response;
     private ProgressDialog progressDialog;
     private int numResults = 0;
     private int max = 0;
@@ -48,6 +49,7 @@ public class SearchActivity extends ListActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search);
         progressDialog = new ProgressDialog(this);
+
         listView = getListView();
 
         getListView().setAdapter(adapter);
@@ -59,19 +61,14 @@ public class SearchActivity extends ListActivity
                     if (scrollState == SCROLL_STATE_IDLE) {
                         Log.d(TAG, "Checking if more results available.");
                         if (listView.getLastVisiblePosition() >= listView.getCount() - 1) {
+
                             call.nextPage();
 
                             // Use async method for search
                             new AsyncSearch().execute(call.buildString());
                         }
-                    } else {
-                        Log.d(TAG, "Scroll state is not idle");
                     }
-                } else {
-                    Log.d(TAG, "End of results");
                 }
-
-                Log.d(TAG, "Scrolled");
             }
 
             @Override
@@ -79,56 +76,34 @@ public class SearchActivity extends ListActivity
             }
         });
 
-        // Create a progress bar to display while the list loads
-        ProgressBar progressBar = new ProgressBar(this);
-        progressBar.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT,
-                LinearLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
-        progressBar.setIndeterminate(true);
-        getListView().setEmptyView(progressBar);
+        final EditText searchBar = (EditText)findViewById(R.id.searchText);
+        searchBar.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                boolean handled = false;
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    try {
+                        search(searchBar);
+                    } catch (Exception e) {
 
-        // Must add the progress bar to the root of the layout
-        ViewGroup root = (ViewGroup) findViewById(android.R.id.content);
-        root.addView(progressBar);
-    }
-
-    @Override
-    public void onScroll(AbsListView view, int firstVisibleItem,
-                         int visibleItemCount, int totalItemCount) {
-        Log.d(TAG, "Scrolled");
-    }
-
-    @Override
-    public void onScrollStateChanged(AbsListView listView, int scrollState) {
-        if(numResults < max) {
-            if (scrollState == SCROLL_STATE_IDLE) {
-                Log.d("SC.Search", "Checking if more results available.");
-                if (listView.getLastVisiblePosition() >= listView.getCount() - 1) {
-                    call.nextPage();
-
-                    // Use async method for search
-                    new AsyncSearch().execute(call.buildString());
+                    }
+                    handled = true;
                 }
-            } else {
-                Log.d(TAG, "Scroll state is not idle");
+                return handled;
             }
-        } else {
-            Log.d(TAG, "End of results");
-        }
-
-        Log.d(TAG, "Scrolled");
-
+        });
     }
 
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Log.d(TAG, "List item click");
-        v.setBackgroundColor(0xFFAEAEAE);
         select(resultsList.get(position).getId());
-        v.setBackgroundColor(0xFFDEDEDE);
     }
 
     public void search(View view) throws Exception {
         reset();
+
+        hideKeyboard();
 
         // Get input from button
         EditText searchInput = (EditText)findViewById(R.id.searchText);
@@ -136,6 +111,15 @@ public class SearchActivity extends ListActivity
         Log.d(TAG, "Starting search with query " + query);
 
         makeCall(query);
+    }
+
+    private void hideKeyboard() {
+        // Check if no view has focus:
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager inputManager = (InputMethodManager) this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputManager.hideSoftInputFromWindow(view.getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+        }
     }
 
     public void searchByExpireDate(View view) throws  Exception
@@ -162,7 +146,6 @@ public class SearchActivity extends ListActivity
 
     private void reset() {
         //getListView().removeAllViews();
-        response = null;
         numResults = 0;
         if(resultsList != null) { resultsList.clear(); }
         max = 0;
@@ -261,6 +244,17 @@ public class SearchActivity extends ListActivity
             }
         }
     }
+
+    public void switchToSearch(View view){
+        ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+        switcher.showNext();
+    }
+
+    public void switchToSuggest(View view){
+        ViewSwitcher switcher = (ViewSwitcher) findViewById(R.id.viewSwitcher);
+        switcher.showPrevious();
+    }
+
 
 
     private class ThumbLoader extends AsyncTask<Integer, Void, Integer> {

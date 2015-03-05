@@ -82,12 +82,12 @@ public class ChooseRecipeActivity extends Activity {
             TextView view = new TextView(root.getContext());
             view.setText(step);
             // Change the background to gray
-            view.setBackgroundColor(0xAADEDEDE);
             LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
             params.setMargins(5, 5, 5, 5);
             view.setLayoutParams(params);
-            view.setPadding(5, 5, 5, 5);
-
+            view.setPadding(10, 10, 10, 10);
+            view.setBackground(getResources().getDrawable(R.drawable.list_item));
+            view.setTextSize(18);
             root.addView(view);
         }
 

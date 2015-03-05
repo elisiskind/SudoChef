@@ -1,6 +1,7 @@
 package sudochef.main;
 
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.ActionBarActivity;
@@ -32,6 +33,27 @@ public class MainActivity extends ActionBarActivity {
         }
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Log.d(TAG,"Switched config");
+
+        View view = findViewById(R.id.main_root);
+        int orientation = getResources().getConfiguration().orientation;
+        if(orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            view.setBackgroundResource (R.drawable.background_land);
+        } else {
+            view.setBackgroundResource (R.drawable.background);
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
