@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.ViewSwitcher;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import sdp.sudochef.R;
 import sudochef.database.ProductDatabase;
@@ -125,11 +126,11 @@ public class SearchActivity extends ListActivity {
     public void searchByExpireDate(View view) throws  Exception
     {
         reset();
-        Product expireSoon = new ProductDatabase(this).getClosestToExpire();
+        List<Product> expireSoon = new ProductDatabase(this).getClosestToExpire();
 
         EditText searchInput = (EditText)findViewById(R.id.searchText);
-        searchInput.setText(expireSoon.generalName);
-        makeCall(expireSoon.generalName);
+        searchInput.setText(expireSoon.get(0).generalName + " " + expireSoon.get(1).generalName);
+        makeCall(expireSoon.get(0).generalName + " " + expireSoon.get(1).generalName);
     }
 
     private void makeCall(String query) throws Exception {

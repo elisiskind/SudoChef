@@ -163,27 +163,37 @@ public class ProductDatabase extends SQLiteOpenHelper {
         return contactList;
     }
 
-    public Product getClosestToExpire()
+    public List<Product> getClosestToExpire()
     {
-        Product output = null;
+        Product output1 = null;
+        Product output2 = null;
         List<Product> all = getAllProducts();
 
         for(Product p : all)
         {
-            if(output == null)
+            if(output1 == null)
             {
-                output = p;
-                continue;
+                output1 = p;
             }
-            if(p.date.Subtract(output.date) < 0)
+            else if(output2 == null)
             {
-                output = p;
+                output2 = p;
+            }
+            else if(p.date.Subtract(output1.date) < 0)
+            {
+                output1 = p;
+            }
+            else if(p.date.Subtract(output2.date) < 0)
+            {
+                output2 = p;
             }
 
         }
 
-
-        return output;
+        List<Product> r = new ArrayList<>();
+        r.add(output1);
+        r.add(output2);
+        return r;
     }
 
 
