@@ -82,17 +82,28 @@ public class CamActivity extends Activity {
                 unpackForm(data);
             }
         }
+        else if(resultCode == Activity.RESULT_CANCELED)
+        {
+            finish();
+        }
     }
 
     private void unpackForm(Intent data) {
 //        int choice = data.getExtra("Output");
         String arr[] = data.getStringArrayExtra("Output");
         String generalName = arr[0];
-        int amount = Integer.parseInt(arr[1]);
+        int amount = 0;
+        if(!arr[1].isEmpty()) {
+            amount = Integer.parseInt(arr[1]);
+        }
         Units unit = Units.CUP;
-        ProductTime expireDate = new ProductTime(arr[3]);
-        GregorianCalendar now = new GregorianCalendar();
-        ProductTime ptNow = new ProductTime(now);
+        ProductTime ptNow = new ProductTime("01 01 1993");
+        ProductTime expireDate = new ProductTime("01 01 1993");;
+        if(!arr[3].isEmpty()) {
+            expireDate = new ProductTime(arr[3]);
+            GregorianCalendar now = new GregorianCalendar();
+            ptNow = new ProductTime(now);
+        }
 
         new ProductLookupTable(this).addEntry(new LookupEntry(SpecficWord, generalName, "Type", expireDate.Subtract(ptNow)));
         putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
@@ -137,7 +148,7 @@ public class CamActivity extends Activity {
                 cal.add(Calendar.DAY_OF_YEAR, searchResults.get(0).TimeTilExpire);
                 int amount = 0;
                 Units unit = Units.CUP;
-                ProductTime expireDate = new ProductTime("11 11 1942");
+                ProductTime expireDate = new ProductTime(cal);
                 putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
             }
             else if(searchResults.size() > 1)

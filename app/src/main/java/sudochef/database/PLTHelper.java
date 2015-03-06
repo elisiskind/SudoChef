@@ -71,10 +71,10 @@ public class PLTHelper {
         for(String inputword : in)
         {
             dupFlag = false;
-            LookupEntry temp = db.search(inputword);
+            LookupEntry temp = db.search(inputword.toLowerCase());
             for(LookupEntry outputword : output)
             {
-                if(outputword.equals(temp))
+                if(temp!=null && outputword.equals(temp))
                 {
                     dupFlag = true;
                 }

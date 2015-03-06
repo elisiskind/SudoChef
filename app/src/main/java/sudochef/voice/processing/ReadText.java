@@ -7,6 +7,7 @@ import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
+import android.widget.Toast;
 
 public class ReadText implements OnInitListener
 {
@@ -35,20 +36,20 @@ public class ReadText implements OnInitListener
 	@SuppressWarnings("deprecation")
 	public void read(String text)
 	{
-        Log.d(TAG, "READING TEXT");
-		 if (!tts.isSpeaking()) {
-             Log.d(TAG, "Speaking" + text);
-		     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
-		 }
-		 else
-		 {
-			 Log.d(TAG, "tts is already speaking");
-		 }
+//        Log.d(TAG, "READING TEXT");
+//		 if (!tts.isSpeaking()) {
+//             Log.d(TAG, "Speaking" + text);
+//		     tts.speak(text, TextToSpeech.QUEUE_FLUSH, null);
+//		 }
+//		 else
+//		 {
+//			 Log.d(TAG, "tts is already speaking");
+//		 }
+        new AsyncReadText().execute(text);
 	}
 	
 	protected void finalize() {
 		if (tts!=null) {
-		
 			tts.stop();
 			
 			tts.shutdown();
@@ -67,17 +68,38 @@ public class ReadText implements OnInitListener
         }
     }
 
-//    @Override
-//    protected int doInBackground(String... params) {
-//        Log.d(TAG, "READING TEXT");
-//        while(tts.isSpeaking()){}
-//        if (!tts.isSpeaking()) {
-//            Log.d(TAG, "Speaking" + params[0]);
-//            tts.speak(params[0], TextToSpeech.QUEUE_FLUSH, null);
-//        }
-//        else
-//        {
-//            Log.d(TAG, "tts is already speaking");
-//        }
-//    }
+    private class AsyncReadText extends AsyncTask<String, Void, Boolean> {
+        @Override
+        protected Boolean doInBackground(String... text) {
+            Log.d(TAG, "Starting Async preheat oven signal at " + text[0] + " degrees.");
+
+            try {
+                Log.d(TAG, "READING TEXT");
+                while(tts.isSpeaking()){}
+                if (!tts.isSpeaking()) {
+                    Log.d(TAG, "Speaking" + text[0]);
+                    tts.speak(text[0], TextToSpeech.QUEUE_FLUSH, null);
+                }
+                else
+                {
+                    Log.d(TAG, "tts is already speaking");
+                }
+            } catch (Exception e) {
+            }
+
+            return true;
+        }
+
+        // onPostExecute displays the results of the AsyncTask.
+        @Override
+        protected void onPostExecute(Boolean result) {
+            Log.d(TAG, "Post Execute");
+            try {
+
+            } catch (Exception e) {
+                // TODO Auto-generated catch block
+                e.printStackTrace();
+            }
+        }
+    }
 }

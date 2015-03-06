@@ -91,7 +91,7 @@ public class GuideActivity extends Activity {
     @Override
     protected void onDestroy()
     {
-        super.onStop();
+        super.onDestroy();
         speaker.kill();
     }
     public class ReceiveMessages extends BroadcastReceiver

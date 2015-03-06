@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
@@ -132,9 +133,19 @@ public class SpeechRecognitionUtil
         {
             recognizerIntent.putExtra(RecognizerIntent.EXTRA_CALLING_PACKAGE, "com.dummy");
         }
-        
+
+//        AudioManager amanager=(AudioManager)context.getSystemService(Context.AUDIO_SERVICE);
+//        int before = amanager.getStreamVolume(AudioManager.STREAM_MUSIC);
+//        amanager.setStreamVolume(AudioManager.STREAM_MUSIC, 0, AudioManager.FLAG_PLAY_SOUND);
         recognizer.setRecognitionListener(listener);
         recognizer.startListening(recognizerIntent);
+
+//        amanager.setStreamVolume(AudioManager.STREAM_MUSIC, before, AudioManager.FLAG_PLAY_SOUND);
+//        amanager.setStreamMute(AudioManager.STREAM_NOTIFICATION, false);
+//        amanager.setStreamMute(AudioManager.STREAM_ALARM, false);
+//        amanager.setStreamMute(AudioManager.STREAM_MUSIC, false);
+//        amanager.setStreamMute(AudioManager.STREAM_RING, false);
+//        amanager.setStreamMute(AudioManager.STREAM_SYSTEM, false);
     }
 
     public static String diagnoseErrorCode(int errorCode)

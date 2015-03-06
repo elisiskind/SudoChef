@@ -7,6 +7,7 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
+import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -114,6 +115,7 @@ public class SpeechActivationService extends Service implements SpeechActivation
 		Log.d(TAG, "started: " + activator.getClass().getSimpleName());
 		isStarted = true;
 		activator.detectActivation();
+
 		startForeground(NOTIFICATION_ID, getNotification(intent));
 	}
 	
@@ -187,7 +189,7 @@ public class SpeechActivationService extends Service implements SpeechActivation
                 PendingIntent.getService(this, 0, makeServiceStopIntent(this),
                         0);
 
-        int icon = intent.getIntExtra(NOTIFICATION_ICON_RESOURCE_INTENT_KEY, R.drawable.icon);
+        int icon = intent.getIntExtra(NOTIFICATION_ICON_RESOURCE_INTENT_KEY, R.drawable.notification);
 
         Notification notification;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
