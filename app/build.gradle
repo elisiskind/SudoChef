@@ -27,4 +27,5 @@ dependencies {
     compile files('libs/jsoup-1.8.1.jar')
     compile files('libs/jsoup-1.8.1-javadoc.jar')
     compile files('libs/json-20140107.jar')
+    compile files('libs/commons-codec-1.10.jar')
 }

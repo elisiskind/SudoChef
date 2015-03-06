@@ -95,6 +95,7 @@ public class GuideActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
+            next(null);
             String result = "Speak Hello";
             Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
             GuideActivity.this.startService(i);
@@ -137,6 +138,11 @@ public class GuideActivity extends Activity {
     }
 
     public void prev(View v) {
+        if(index == -1) {
+            start();
+            return;
+        }
+
         if(index > 0) {
             index--;
             flipBackward();
