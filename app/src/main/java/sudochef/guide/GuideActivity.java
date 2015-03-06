@@ -5,6 +5,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -42,6 +43,7 @@ public class GuideActivity extends Activity {
         GuideActivity.this.startService(i);
 
         setContentView(R.layout.activity_guide);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewAnimatorSteps);
         next = (Button) findViewById(R.id.next_button);
         prev = (Button) findViewById(R.id.back_button);
