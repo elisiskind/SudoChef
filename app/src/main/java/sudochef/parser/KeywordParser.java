@@ -2,8 +2,9 @@ package sudochef.parser;
 
 import android.util.Log;
 
+import java.util.ArrayList;
+
 import sudochef.guide.PreheatStep;
-import sudochef.guide.Recipe;
 import sudochef.guide.Step;
 
 /**
@@ -18,15 +19,15 @@ public class KeywordParser {
         stringStepList = steps;
     }
 
-    public Recipe parseRecipe() {
+    public Step[] parseRecipe() {
 
-        Recipe recipe = new Recipe();
+        ArrayList<Step> recipe = new ArrayList<>(stringStepList.length);
 
         for(String stepString : stringStepList ) {
-            recipe.addStep(parse(stepString));
+            recipe.add(parse(stepString));
         }
 
-        return recipe;
+        return recipe.toArray(new Step[recipe.size()]);
     }
 
     private Step parse(String stepString){

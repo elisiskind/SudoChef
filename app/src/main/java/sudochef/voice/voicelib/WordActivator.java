@@ -1,8 +1,6 @@
 package sudochef.voice.voicelib;
 
 
-import java.util.List;
-
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -10,6 +8,8 @@ import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;
 import android.speech.SpeechRecognizer;
 import android.util.Log;
+
+import java.util.List;
 
 /**
  * Uses direct speech recognition to activate when the user speaks
@@ -129,7 +129,7 @@ public class WordActivator implements SpeechActivator, RecognitionListener
         if ((errorCode == SpeechRecognizer.ERROR_NO_MATCH)
                 || (errorCode == SpeechRecognizer.ERROR_SPEECH_TIMEOUT))
         {
-            Log.d(TAG, "didn't recognize anything");
+            Log.v(TAG, "didn't recognize anything");
             // keep going
             recognizeSpeechDirectly();
         }
@@ -159,7 +159,7 @@ public class WordActivator implements SpeechActivator, RecognitionListener
     @Override
     public void onReadyForSpeech(Bundle params)
     {
-        Log.d(TAG, "ready for speech " + params);
+        Log.v(TAG, "ready for speech " + params);
     }
 
     @Override

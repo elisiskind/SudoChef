@@ -8,11 +8,15 @@ import java.util.LinkedList;
  */
 public class Recipe {
 
-    LinkedList<Step> steps;
-    Iterator<Step> current;
+    private LinkedList<Step> steps;
+    private Iterator<Step> current;
 
     public Recipe() {
-        steps = new LinkedList<Step>();
+        steps = new LinkedList<>();
+    }
+
+    public int size() {
+        return steps.size();
     }
 
     public void begin() {

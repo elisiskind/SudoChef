@@ -1,22 +1,20 @@
 package sudochef.guide;
 
 import android.app.Activity;
-import android.app.Notification;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import sdp.sudochef.R;
-import sudochef.guide.Step.StepType;
 import sudochef.parser.KeywordParser;
 import sudochef.voice.processing.ReadText;
 import sudochef.voice.voicelib.SpeechActivationService;
@@ -28,34 +26,30 @@ public class GuideActivity extends Activity {
     ReceiveMessages myReceiver = null;
     Boolean myReceiverIsRegistered = false;
 
-    private Recipe recipe;
+    private String TAG = "SC.Guide";
     private ViewFlipper viewFlipper;
-    private int count;
+    private int index;
+    private Step[] recipe;
+    private Button next, prev;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        myReceiver = new ReceiveMessages();
         speaker = new ReadText(this);
+        myReceiver = new ReceiveMessages();
         String result = "Speak Hello";
         Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
         GuideActivity.this.startService(i);
 
         setContentView(R.layout.activity_guide);
         viewFlipper = (ViewFlipper) findViewById(R.id.viewAnimatorSteps);
+        next = (Button) findViewById(R.id.next_button);
+        prev = (Button) findViewById(R.id.back_button);
 
-        Bundle extras = getIntent().getExtras();
-        if (extras != null) {
-            String[] recipeSteps = (String[])extras.get("recipe");
-            recipe = new KeywordParser(recipeSteps).parseRecipe();
-        } else {
-            // DO a test recipe instead
-            makeTestRecipe();
-        }
-
-
-        count = 0;
-        recipe.begin();
+        // Get recipe from extras (or create sample one)
+        constructRecipe();
+        addStepsToFlipper();
+        start();
     }
 
     @Override
@@ -99,67 +93,83 @@ public class GuideActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
-            executeNextStep(null);
             String result = "Speak Hello";
             Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
             GuideActivity.this.startService(i);
         }
     }
 
-    private void makeTestRecipe() {
-        recipe = new Recipe();
-
-        PreheatStep preheat = new PreheatStep("Preheat oven to 450.", 450);
-        recipe.addStep(preheat);
-
-        String s = "This is a sample instruction step. It will be read aloud.";
-        Step inst = new Step(s);
-        recipe.addStep(inst);
-
-        NotifyStep notify = new NotifyStep("Simmer soup for 30 minutes.", 30, "Simmer soup", "Simmering soup");
-        recipe.addStep(notify);
-    }
-
-    public void begin(View v) {
-        executeNextStep(v);
-    }
-
-    public void executeNextStep(View v) {
-
-        Step s;
-        if (recipe.hasNext()) {
-
-            s = recipe.nextStep();
-            s.setContext(getApplicationContext());
-
-            // Add next step to flipper
-            String text = s.getText();
-            viewFlipper.addView(makeWidget(text, count++));
-
-            // Advance flipper
-            viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
-            viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
-            viewFlipper.showNext();
-            speaker.read(text);
-
-            if(s.getType() == StepType.NOTIFY) {
-                NotifyStep ns = (NotifyStep) s;
-                scheduleNotification(getNotification(ns.getNotificationText()), ns.getTime() * 1000);
-                Log.d("NOTIFY", "Setting notification");
-            }
-
-            Log.i("SC.Guide", "Executing step yo");
-
-            s.execute();
+    private void constructRecipe() {
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            String[] recipeSteps = (String[]) extras.get("recipe");
+            recipe = new KeywordParser(recipeSteps).parseRecipe();
         } else {
-            // Add end step to flipper
-            viewFlipper.addView(makeWidget("Recipe completed", count++));
-
-            // Advance flipper
-            viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
-            viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
-            viewFlipper.showNext();
+            // DO a test recipe instead
+            makeTestRecipe();
         }
+    }
+
+    private void addStepsToFlipper() {
+        int stepNum = 1;
+
+        for(Step step : recipe) {
+            step.setContext(getApplicationContext());
+            viewFlipper.addView(makeWidget(step.getText(), stepNum++));
+        }
+    }
+
+    private void makeTestRecipe() {
+        recipe = new Step[3];
+
+        recipe[0] = new PreheatStep("Preheat oven to 450.", 450);
+        recipe[1] = new Step("Chop onions, garlic, and tomatoes and add to saucepan.");
+        recipe[2] = new HotPlateStep("Boil two quarts of water.", HotPlateStep.HIGH);
+    }
+
+    public void start() {
+        index = 0;
+        prev.setEnabled(false);
+        speaker.setQueue(recipe[index].getText());
+        recipe[index].execute();
+    }
+
+    public void prev(View v) {
+        if(index > 0) {
+            index--;
+            flipBackward();
+            speaker.read(recipe[index].getText());
+        }
+
+        if(index == 0) {
+            prev.setEnabled(false);
+        }
+    }
+
+    public void next(View v) {
+        if(index < recipe.length) {
+            index++;
+            flipForward();
+            prev.setEnabled(true);
+            speaker.read(recipe[index].getText());
+            recipe[index].execute();
+        }
+
+        if(index == recipe.length - 1) {
+            next.setEnabled(false);
+        }
+    }
+
+    private void flipForward() {
+        viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_in_right));
+        viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, R.anim.slide_out_left));
+        viewFlipper.showNext();
+    }
+
+    private void flipBackward() {
+        viewFlipper.setInAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_in_left));
+        viewFlipper.setOutAnimation(AnimationUtils.loadAnimation(this, android.R.anim.slide_out_right));
+        viewFlipper.showPrevious();
     }
 
     private LinearLayout makeWidget(String s, int step) {
@@ -181,32 +191,11 @@ public class GuideActivity extends Activity {
 
             @Override
             public void onClick(View v) {
-                executeNextStep(v);
+                next(v);
             }
 
         });
         return content;
     }
 
-    private void scheduleNotification(Notification notification, int delay) {
-        /* TODO */
-    /*
-        Intent notificationIntent = new Intent(this, NotificationPublisher.class);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION_ID, 1);
-        notificationIntent.putExtra(NotificationPublisher.NOTIFICATION, notification);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        long futureInMillis = SystemClock.elapsedRealtime() + delay;
-        AlarmManager alarmManager = (AlarmManager)getSystemService(Context.ALARM_SERVICE);
-        alarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP, futureInMillis, pendingIntent);
-        */
-    }
-
-    private Notification getNotification(String content) {
-        Notification.Builder builder = new Notification.Builder(this);
-        builder.setContentTitle("Sudo Chef");
-        builder.setContentText(content);
-        builder.setSmallIcon(R.drawable.ic_launcher);
-        return builder.build();
-    }
 }

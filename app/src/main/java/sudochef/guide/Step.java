@@ -7,12 +7,14 @@ public class Step {
     protected String instructionText;
     protected StepType stepType;
     protected Context context;
+    protected Boolean executed;
 
     enum StepType {
         PREHEAT, INSTRUCTION, NOTIFY, FEEDBACK, HOTPLATE, END
     }
 
     public Step(String text){
+        executed = false;
         instructionText = text;
         this.stepType = StepType.INSTRUCTION;
     }
@@ -22,7 +24,7 @@ public class Step {
     }
 
     public void execute(){
-
+        executed = true;
     };
 
     public Context getContext() {

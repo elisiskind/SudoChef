@@ -10,8 +10,6 @@
     <string name="title_activity_choose_recipe">ChooseRecipeActivity</string>
     <string name="title_activity_guide">GuideActivity</string>
 
-    <string name="start_recipe_title">Step 0</string>
-    <string name="start_recipe_text">Start Recipe</string>
     <string name="start_camera_button">Add Products</string>
     <string name="start_recipe_button">Start Recipe</string>
     <string name="start_bluetooth_button">Start Bluetooth</string>
@@ -20,7 +18,7 @@
     <string name="blank_icon">Recipe Thumbnail</string>
     <string name="edit_message">Recipe key words</string>
     <string name="button_send">Search</string>
-    <string name="start_search">Search for recipes</string>
+    <string name="start_search">Find Recipes</string>
 
     <string name="fieldTitle">Enter In The Following Information</string>
     <string name="hint_genName">Enter Item name</string>
@@ -43,5 +41,7 @@
     <string name="title_activity_device_list">DeviceListActivity</string>
     <string name="title_activity_send_data">SendDataActivity</string>
     <string name="button_send_database">Suggest Recipes</string>
+    <string name="back_button">back</string>
+    <string name="next_button">next</string>
 
 </resources>

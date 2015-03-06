@@ -23,14 +23,36 @@ public class PreheatStep extends Step {
 
     @Override
     public void execute() {
-        new AsyncPreheatSignal().execute(temp);
-        Log.i("Preheat", "Sending preheat signal: " + temp);
+        if(!this.executed) {
+            super.execute();
+            Toast.makeText(getContext(), "Sending preheat signal to oven", Toast.LENGTH_SHORT).show();
+            new AsyncPreheatSignal().execute(temp);
+            Log.i("Preheat", "Sending preheat signal: " + temp);
+        }
     }
 
-    @Override
-    public String getText() {
-        return this.instructionText;
+    private void showToast(Boolean success) {
+
+        Toast toast;
+        int duration = Toast.LENGTH_SHORT;
+
+        if(success) {
+            Log.d(TAG, "The oven preheated in theory");
+
+            CharSequence text = "Oven preheated to " + getTemp();
+            toast = Toast.makeText(getContext(), text, duration);
+
+        } else {
+            Log.e(TAG, "Failed to preheat");
+
+            CharSequence text = "Failed to send preheat signal";
+            toast = Toast.makeText(getContext(), text, duration);
+        }
+
+        toast.show();
+
     }
+
 
     private class AsyncPreheatSignal extends AsyncTask<Integer, Void, Boolean> {
         @Override
@@ -56,25 +78,7 @@ public class PreheatStep extends Step {
         // onPostExecute displays the results of the AsyncTask.
         @Override
         protected void onPostExecute(Boolean result) {
-
-            Toast toast;
-            int duration = Toast.LENGTH_SHORT;
-
-            if(result) {
-                Log.d(TAG, "The oven preheated in theory");
-
-                CharSequence text = "Oven preheated to " + getTemp();
-                toast = Toast.makeText(getContext(), text, duration);
-
-            } else {
-                Log.e(TAG, "Failed to preheat");
-
-                CharSequence text = "Failed to send preheat signal";
-                toast = Toast.makeText(getContext(), text, duration);
-            }
-
-            toast.show();
-
+            showToast(result);
         }
     }
 

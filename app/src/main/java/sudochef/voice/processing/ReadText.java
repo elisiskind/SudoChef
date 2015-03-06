@@ -1,31 +1,38 @@
 package sudochef.voice.processing;
 
-import java.util.Locale;
-
 import android.content.Context;
 import android.os.AsyncTask;
 import android.speech.tts.TextToSpeech;
 import android.speech.tts.TextToSpeech.OnInitListener;
 import android.util.Log;
-import android.widget.Toast;
+
+import java.util.Locale;
 
 public class ReadText implements OnInitListener
 {
     private static final String TAG = "ReadText";
 	TextToSpeech tts;
+    boolean initComplete = false;
+    String queued;
 
 	public ReadText(Context t)
 	{
 		tts = new TextToSpeech(t, this);
 		tts.setLanguage(Locale.getDefault());
 	}
+
+    public void setQueue(String s){
+        queued = s;
+    }
 	
 	@Override
 	public void onInit(int status) {
 		if (status==TextToSpeech.SUCCESS) {
+            initComplete = true;
 			Log.d(TAG, "Text to speech Initialized");
-		
+
 			tts.setLanguage(Locale.getDefault());
+            read(queued);
 		
 		} else {
 			Log.d(TAG, "Text to speech FAILED init");
@@ -45,6 +52,11 @@ public class ReadText implements OnInitListener
 //		 {
 //			 Log.d(TAG, "tts is already speaking");
 //		 }
+
+        while(!initComplete){
+
+        }
+
         new AsyncReadText().execute(text);
 	}
 	
@@ -71,11 +83,11 @@ public class ReadText implements OnInitListener
     private class AsyncReadText extends AsyncTask<String, Void, Boolean> {
         @Override
         protected Boolean doInBackground(String... text) {
-            Log.d(TAG, "Starting Async preheat oven signal at " + text[0] + " degrees.");
-
             try {
                 Log.d(TAG, "READING TEXT");
-                while(tts.isSpeaking()){}
+                while(tts.isSpeaking()){
+                    wait();
+                }
                 if (!tts.isSpeaking()) {
                     Log.d(TAG, "Speaking" + text[0]);
                     tts.speak(text[0], TextToSpeech.QUEUE_FLUSH, null);
