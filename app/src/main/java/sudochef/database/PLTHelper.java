@@ -61,25 +61,32 @@ public class PLTHelper {
                 Log.d("Eval", "removing" + word);
             }
         }
-        return pltQuery(db, output);
+        return pltQuery(db, output, productName);
     }
 
-    private static List<LookupEntry> pltQuery(ProductLookupTable db, List<String> in)
+    private static List<LookupEntry> pltQuery(ProductLookupTable db, List<String> in, String fullName)
     {
         List<LookupEntry> output = new ArrayList<LookupEntry>();
-        boolean dupFlag;
-        for(String inputword : in)
+        LookupEntry fullNameSearch = db.search(fullName);
+        if(fullNameSearch != null)
         {
-            dupFlag = false;
-            LookupEntry temp = db.search(inputword.toLowerCase());
-            for(LookupEntry outputword : output)
-            {
-                if(temp!=null && outputword.equals(temp))
-                {
-                    dupFlag = true;
+            output.add(fullNameSearch);
+        }
+        else
+        {
+            boolean dupFlag;
+            for (String inputword : in) {
+                dupFlag = false;
+                LookupEntry temp = db.search(inputword.toLowerCase());
+                for (LookupEntry outputword : output) {
+                    if (temp != null && outputword.equals(temp)) {
+                        dupFlag = true;
+                    }
+                }
+                if (!dupFlag && temp != null) {
+                    output.add(temp);
                 }
             }
-            if(!dupFlag && temp!= null) { output.add(temp); }
         }
 
         return output;

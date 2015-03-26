@@ -26,7 +26,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         super(context, "/mnt/sdcard/SudoChef.db",null, 1); //TODO Change back to secure loc
         String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVENTORY + "("
                 + KEY_NAME + " STRING PRIMARY KEY," + KEY_GENNAME + " STRING," + KEY_AMT + " REAL,"
-                + KEY_UNIT + " INTEGER," + KEY_DATEEXPIRE + " STRING" + ")";
+                + KEY_UNIT + " STRING," + KEY_DATEEXPIRE + " STRING" + ")";
         this.getWritableDatabase().execSQL(CREATE_CONTACTS_TABLE);
     }
 
@@ -47,7 +47,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         values.put(KEY_NAME, p.name); // Product Name
         values.put(KEY_GENNAME, p.generalName); // Product Name
         values.put(KEY_AMT, p.amount); // 
-        values.put(KEY_UNIT, p.amountUnit.ordinal()); // 
+        values.put(KEY_UNIT, p.amountUnit.toString()); //
         values.put(KEY_DATEEXPIRE, p.date.FormatToString()); // 
 
         // Inserting Row
@@ -94,7 +94,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
         values.put(KEY_NAME, p.name);
         values.put(KEY_GENNAME, p.generalName);
         values.put(KEY_AMT, p.amount);
-        values.put(KEY_UNIT, p.amountUnit.ordinal());
+        values.put(KEY_UNIT, p.amountUnit.toString());
         values.put(KEY_DATEEXPIRE, p.date.FormatToString());
 
         // updating row

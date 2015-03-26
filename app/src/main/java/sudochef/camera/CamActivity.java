@@ -97,6 +97,11 @@ public class CamActivity extends Activity {
             amount = Integer.parseInt(arr[1]);
         }
         Units unit = Units.CUP;
+        if(!arr[2].isEmpty())
+        {
+            unit = Units.contains(arr[2]);
+        }
+
         ProductTime ptNow = new ProductTime("01 01 1993");
         ProductTime expireDate = new ProductTime("01 01 1993");;
         if(!arr[3].isEmpty()) {
@@ -105,7 +110,7 @@ public class CamActivity extends Activity {
             ptNow = new ProductTime(now);
         }
 
-        new ProductLookupTable(this).addEntry(new LookupEntry(SpecficWord, generalName, "Type", expireDate.Subtract(ptNow)));
+        new ProductLookupTable(this).addEntry(new LookupEntry(SpecficWord, generalName, unit, expireDate.Subtract(ptNow)));
         putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
 
     }
@@ -122,7 +127,7 @@ public class CamActivity extends Activity {
         GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, searchResults.get(choice).TimeTilExpire);
         int amount = 0;
-        Units unit = Units.CUP;
+        Units unit = searchResults.get(choice).type;
         ProductTime expireDate = new ProductTime(cal);
         putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
     }
@@ -169,23 +174,11 @@ public class CamActivity extends Activity {
             else if(searchResults.size() == 0)
             {
                 Log.i(TAG, "Starting CustomDialog");
-//                Intent intentForm = new Intent(CamActivity.this, CustomActivity.class);
-//                startActivityForResult(intentForm, FORM_REQ);
                 Bundle b=new Bundle();
                 b.putBoolean("VerboseFlag", true);
                 Intent intentGoListActivity = new Intent(CamActivity.this, CustomActivity.class);
                 intentGoListActivity.putExtras(b);
                 startActivityForResult(intentGoListActivity, FORM_REQ);
-//                Bundle b=new Bundle();
-//                List<String> in = new ArrayList<String>();
-//                for(int i = 0; i<5; i++){ in.add("PoP"); }
-//                String[] arrin = new String[in.size()];
-//                in.toArray(arrin);
-//                Log.d(TAG, arrin[0]);
-//                b.putStringArray("List", arrin);
-//                Intent intentMultiChoice = new Intent(CamActivity.this, MultipleChoiceActivity.class);
-//                intentMultiChoice.putExtras(b);
-//                startActivityForResult(intentMultiChoice, MULTICHOICE_REQ);
             }
 
 

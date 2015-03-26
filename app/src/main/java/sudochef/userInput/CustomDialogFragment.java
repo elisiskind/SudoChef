@@ -10,6 +10,7 @@ import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import sdp.sudochef.R;
@@ -76,13 +77,12 @@ public class CustomDialogFragment extends DialogFragment {
                         //here we pass dummy details
                         final EditText ed1 = (EditText) getDialog().findViewById(R.id.ItemNameVal);
                         final EditText ed2 = (EditText) getDialog().findViewById(R.id.AmountVal);
-                        final EditText ed3 = (EditText) getDialog().findViewById(R.id.EditUnitVal);
+                        final Spinner sp1 = (Spinner) getDialog().findViewById(R.id.Units_spinner);
                         final EditText ed4 = (EditText) getDialog().findViewById(R.id.ExpireVal);
                         Editable temp1 = ed1.getText();
                         Editable temp2 = ed2.getText();
-                        Editable temp3 = ed3.getText();
                         Editable temp4 = ed4.getText();
-                        dialogListener.onOkay(new String[]{temp1.toString(), temp2.toString(), temp3.toString(), temp4.toString()});
+                        dialogListener.onOkay(new String[]{temp1.toString(), temp2.toString(), sp1.getSelectedItem().toString(), temp4.toString()});
                     }
                 })
                 .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {

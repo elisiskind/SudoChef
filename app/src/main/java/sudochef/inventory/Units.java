@@ -14,4 +14,15 @@ public enum Units {
 
     METER;
 
+    public static Units contains(String test) {
+
+        for (Units c : Units.values()) {
+            if (c.name().equals(test)) {
+                return c;
+            }
+        }
+
+        return null;
+    }
+
 }

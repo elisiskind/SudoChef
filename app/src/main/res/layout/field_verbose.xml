@@ -3,11 +3,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content">
+    android:layout_height="fill_parent">
 
     <TextView
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:text="@string/fieldTitle"
         android:layout_gravity="center"
@@ -19,33 +19,33 @@
     <EditText
         android:id="@+id/ItemNameVal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:hint="@string/hint_genName"
         android:ems="10" />
 
     <EditText
         android:id="@+id/AmountVal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:ems="10"
         android:hint="@string/hint_amt"
         android:inputType="number" />
 
-    <EditText
-        android:id="@+id/EditUnitVal"
+    <Spinner
+        android:id="@+id/Units_spinner"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:ems="10"
-        android:hint="@string/hint_unit"
-        android:inputType="text" />
+        android:layout_height="fill_parent"
+        android:entries="@array/units_array"
+        android:prompt="@string/hint_unit"/>
 
     <EditText
         android:id="@+id/ExpireVal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="fill_parent"
         android:ems="10"
         android:hint="@string/hint_Expire"
         android:inputType="text" />
+
 
 
 </LinearLayout>

@@ -6,6 +6,8 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import sudochef.inventory.Units;
+
 public class ProductLookupTable extends SQLiteOpenHelper {
     private static final String TABLE_PRODUCTLOOKUP = "ProductLookuptlb";
     // Product Table Columns names
@@ -39,7 +41,7 @@ public class ProductLookupTable extends SQLiteOpenHelper {
         ContentValues values = new ContentValues();
         values.put(KEY_SW, p.searchWord); // Product Name
         values.put(KEY_GW, p.generalWord); // 
-        values.put(KEY_TYPE, p.type); // 
+        values.put(KEY_TYPE, p.type.toString()); //
         values.put(KEY_TTE, p.TimeTilExpire); // 
 
         // Inserting Row
@@ -71,7 +73,7 @@ public class ProductLookupTable extends SQLiteOpenHelper {
         {
             entry = new LookupEntry(cursor.getString(0),
                                     cursor.getString(1),
-                                    cursor.getString(2),
+                                    Units.contains(cursor.getString(2)),
                                     Integer.parseInt(cursor.getString(3)));
         }
         return entry;

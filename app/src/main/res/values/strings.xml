@@ -44,4 +44,18 @@
     <string name="back_button">back</string>
     <string name="next_button">next</string>
 
+
+    <string-array name="units_array">
+        <item>TEASPOON</item>
+        <item>TABLESPOON</item>
+        <item>FLUIDOUNCE</item>
+        <item>CUP</item>
+        <item>PINT</item>
+        <item>QUART</item>
+        <item>GALLON</item>
+        <item>LITER</item>
+        <item>POUND</item>
+        <item>OUNCE</item>
+    </string-array>
+
 </resources>

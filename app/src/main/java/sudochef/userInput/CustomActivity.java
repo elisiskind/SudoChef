@@ -33,7 +33,6 @@ public class CustomActivity extends FragmentActivity implements CustomDialogFrag
 
     private void stuff(String[] ItemName)
     {
-
         Intent resultData = new Intent();
         resultData.putExtra("Output", ItemName);
         setResult(CustomActivity.RESULT_OK, resultData);
@@ -50,5 +49,8 @@ public class CustomActivity extends FragmentActivity implements CustomDialogFrag
     @Override
     public void onCancel() {
         Toast.makeText(this, "You cancelled the dialog", Toast.LENGTH_SHORT).show();
+        Intent resultData = new Intent();
+        setResult(CustomActivity.RESULT_CANCELED, resultData);
+        finish();
     }
 }

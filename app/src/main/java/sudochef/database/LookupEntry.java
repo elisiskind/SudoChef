@@ -1,12 +1,14 @@
 package sudochef.database;
 
+import sudochef.inventory.Units;
+
 public class LookupEntry {
     public String searchWord;
     public String generalWord;
-    public String type;
+    public Units type;
     public int TimeTilExpire;
 
-    public LookupEntry(String sw, String gw, String t, int tte)
+    public LookupEntry(String sw, String gw, Units t, int tte)
     {
         searchWord =sw;
         generalWord = gw;
