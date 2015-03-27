@@ -131,8 +131,14 @@ public class SearchActivity extends ListActivity {
         List<Product> expireSoon = new ProductDatabase(this).getClosestToExpire();
 
         EditText searchInput = (EditText)findViewById(R.id.searchText);
-        searchInput.setText(expireSoon.get(0).generalName + " " + expireSoon.get(1).generalName);
-        makeCall(expireSoon.get(0).generalName + " " + expireSoon.get(1).generalName);
+        if(expireSoon.size() == 1) {
+            searchInput.setText(expireSoon.get(0).generalName);
+            makeCall(expireSoon.get(0).generalName);
+        }
+        else  if(expireSoon.size() == 2) {
+            searchInput.setText(expireSoon.get(0).generalName + " " + expireSoon.get(1).generalName);
+            makeCall(expireSoon.get(0).generalName + " " + expireSoon.get(1).generalName);
+        }
     }
 
     private void makeCall(String query) throws Exception {

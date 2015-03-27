@@ -92,9 +92,9 @@ public class CamActivity extends Activity {
 //        int choice = data.getExtra("Output");
         String arr[] = data.getStringArrayExtra("Output");
         String generalName = arr[0];
-        int amount = 0;
+        double amount = 0;
         if(!arr[1].isEmpty()) {
-            amount = Integer.parseInt(arr[1]);
+            amount = Double.parseDouble(arr[1]);
         }
         Units unit = Units.CUP;
         if(!arr[2].isEmpty())
@@ -109,13 +109,12 @@ public class CamActivity extends Activity {
             GregorianCalendar now = new GregorianCalendar();
             ptNow = new ProductTime(now);
         }
-
         new ProductLookupTable(this).addEntry(new LookupEntry(SpecficWord, generalName, unit, expireDate.Subtract(ptNow)));
         putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
 
     }
 
-    private void putInProductDatabase(String SW, String Gen, int amt, Units unit, ProductTime exp) {
+    private void putInProductDatabase(String SW, String Gen, double amt, Units unit, ProductTime exp) {
         new ProductDatabase(this).addProduct(new Product(SW, Gen, amt, unit, exp));
         super.finish();
     }
@@ -126,7 +125,7 @@ public class CamActivity extends Activity {
         String generalName = searchResults.get(choice).generalWord;
         GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, searchResults.get(choice).TimeTilExpire);
-        int amount = 0;
+        double amount = 0;
         Units unit = searchResults.get(choice).type;
         ProductTime expireDate = new ProductTime(cal);
         putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
@@ -151,7 +150,7 @@ public class CamActivity extends Activity {
                 generalName = searchResults.get(0).generalWord;
                 GregorianCalendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_YEAR, searchResults.get(0).TimeTilExpire);
-                int amount = 0;
+                double amount = 0;
                 Units unit = Units.CUP;
                 ProductTime expireDate = new ProductTime(cal);
                 putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);

@@ -9,7 +9,7 @@ import java.io.IOException;
  */
 public class OvenControl extends DeviceControl {
     private final String TAG = "OvenControl";
-    private static final String MAC = "30:14:11:25:21:84";
+    private static final String MAC = "30:14:11:28:24:44";
     private static final int Toast = 0xFF;
     private static final int Broil = 0xF0;
     private static final int Probe = 0x0F;

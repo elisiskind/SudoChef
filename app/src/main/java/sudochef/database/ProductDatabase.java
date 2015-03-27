@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,6 +15,7 @@ import sudochef.inventory.ProductTime;
 import sudochef.inventory.Units;
 
 public class ProductDatabase extends SQLiteOpenHelper {
+    private final String TAG = "ProductDatabase";
     private static final String TABLE_INVENTORY = "Inventory";
     // Product Table Columns names
     private static final String KEY_NAME = "name";
@@ -25,7 +27,7 @@ public class ProductDatabase extends SQLiteOpenHelper {
     public ProductDatabase(Context context) {
         super(context, "/mnt/sdcard/SudoChef.db",null, 1); //TODO Change back to secure loc
         String CREATE_CONTACTS_TABLE = "CREATE TABLE IF NOT EXISTS " + TABLE_INVENTORY + "("
-                + KEY_NAME + " STRING PRIMARY KEY," + KEY_GENNAME + " STRING," + KEY_AMT + " REAL,"
+                + KEY_NAME + " STRING PRIMARY KEY," + KEY_GENNAME + " STRING," + KEY_AMT + " DOUBLE,"
                 + KEY_UNIT + " STRING," + KEY_DATEEXPIRE + " STRING" + ")";
         this.getWritableDatabase().execSQL(CREATE_CONTACTS_TABLE);
     }
@@ -78,8 +80,8 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
         Product prod = new Product(cursor.getString(0),
                 cursor.getString(1),
-                Integer.parseInt(cursor.getString(2)),
-                Units.values()[Integer.parseInt(cursor.getString(3))],
+                Double.parseDouble(cursor.getString(2)),
+                Units.valueOf(cursor.getString(3)),
                 date);
 
         return prod;
@@ -111,16 +113,17 @@ public class ProductDatabase extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         Cursor cursor = db.rawQuery(selectQuery, null);
 
+        Log.d(TAG, " " + cursor.getCount());
         // looping through all rows and adding to list
-        if (cursor.moveToFirst()) {
+        if (cursor != null && cursor.moveToFirst() ) {
             do {
-
+                Log.d(TAG, " " + cursor.getCount());
                 ProductTime date = new ProductTime(cursor.getString(4));
 
                 Product prod = new Product(cursor.getString(0),
                         cursor.getString(1),
-                        Integer.parseInt(cursor.getString(2)),
-                        Units.values()[Integer.parseInt(cursor.getString(3))],
+                        Double.parseDouble(cursor.getString(2)),
+                        Units.valueOf(cursor.getString(3)),
                         date);
 
                 // Adding contact to list
@@ -151,8 +154,8 @@ public class ProductDatabase extends SQLiteOpenHelper {
 
                 Product prod = new Product(cursor.getString(0),
                         cursor.getString(1),
-                        Integer.parseInt(cursor.getString(2)),
-                        Units.values()[Integer.parseInt(cursor.getString(3))],
+                        Double.parseDouble(cursor.getString(2)),
+                        Units.valueOf(cursor.getString(3)),
                         date);
                 // Adding contact to list
                 contactList.add(prod);
@@ -191,8 +194,8 @@ public class ProductDatabase extends SQLiteOpenHelper {
         }
 
         List<Product> r = new ArrayList<>();
-        r.add(output1);
-        r.add(output2);
+        if(output1 != null){ r.add(output1); }
+        if(output2 != null){ r.add(output2); }
         return r;
     }
 
