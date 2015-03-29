@@ -8,6 +8,7 @@ import java.util.Iterator;
 import java.util.List;
 
 public class PLTHelper {
+    private static final String TAG = "PLTHealper";
     @SuppressWarnings("serial")
     private static final ArrayList<String> stopwords = new ArrayList<String>(){{
         add("I");
@@ -67,13 +68,13 @@ public class PLTHelper {
     private static List<LookupEntry> pltQuery(ProductLookupTable db, List<String> in, String fullName)
     {
         List<LookupEntry> output = new ArrayList<LookupEntry>();
-        LookupEntry fullNameSearch = db.search(fullName);
-        if(fullNameSearch != null)
-        {
-            output.add(fullNameSearch);
-        }
-        else
-        {
+//        LookupEntry fullNameSearch = db.search(fullName);
+//        if(fullNameSearch != null)
+//        {
+//            output.add(fullNameSearch);
+//        }
+//        else
+//        {
             boolean dupFlag;
             for (String inputword : in) {
                 dupFlag = false;
@@ -87,7 +88,7 @@ public class PLTHelper {
                     output.add(temp);
                 }
             }
-        }
+//        }
 
         return output;
     }

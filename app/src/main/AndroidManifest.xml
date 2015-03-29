@@ -72,6 +72,10 @@
             android:name="sudochef.userInput.MultipleChoiceActivity"
             android:label="MultipleChoiceActivity" >
         </activity>
+        <activity
+            android:name="sudochef.userInput.AmountActivity"
+            android:label="AmountActivity" >
+        </activity>
         <service android:name="sudochef.voice.voicelib.SpeechActivationService" >
         </service>
     </application>

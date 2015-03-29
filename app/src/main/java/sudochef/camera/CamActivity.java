@@ -29,6 +29,7 @@ import sudochef.database.ProductLookupTable;
 import sudochef.inventory.Product;
 import sudochef.inventory.ProductTime;
 import sudochef.inventory.Units;
+import sudochef.userInput.AmountActivity;
 import sudochef.userInput.CustomActivity;
 import sudochef.userInput.MultipleChoiceActivity;
 
@@ -40,10 +41,14 @@ public class CamActivity extends Activity {
     static File imagePath;
     public List<LookupEntry> searchResults;
     private String SpecficWord;
-
+    private String generalName;
+    private Units unit;
+    private ProductTime expireDate;
+    private double amount;
     private static final int CAM_REQ = 2;
     private static final int MULTICHOICE_REQ = 3;
     private static final int FORM_REQ = 4;
+    private static final int AMT_REQ = 5;
 
 
     @Override
@@ -81,42 +86,47 @@ public class CamActivity extends Activity {
             {
                 unpackForm(data);
             }
+            else if(requestCode == AMT_REQ)
+            {
+                unpackSingleString(data);
+            }
         }
         else if(resultCode == Activity.RESULT_CANCELED)
         {
             finish();
         }
     }
+    private void unpackSingleString(Intent data){
+        String arr[] = data.getStringArrayExtra("Output");
+        amount = Integer.parseInt(arr[0]);
 
+        putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
+    }
     private void unpackForm(Intent data) {
 //        int choice = data.getExtra("Output");
         String arr[] = data.getStringArrayExtra("Output");
-        String generalName = arr[0];
-        double amount = 0;
+        generalName = arr[0];
+        amount = 0;
         if(!arr[1].isEmpty()) {
             amount = Double.parseDouble(arr[1]);
         }
-        Units unit = Units.CUP;
+        unit = Units.CUP;
         if(!arr[2].isEmpty())
         {
             unit = Units.contains(arr[2]);
         }
 
         ProductTime ptNow = new ProductTime("01 01 1993");
-        ProductTime expireDate = new ProductTime("01 01 1993");;
+        expireDate = new ProductTime("01 01 1993");;
         if(!arr[3].isEmpty()) {
             expireDate = new ProductTime(arr[3]);
             GregorianCalendar now = new GregorianCalendar();
             ptNow = new ProductTime(now);
         }
+
         new ProductLookupTable(this).addEntry(new LookupEntry(SpecficWord, generalName, unit, expireDate.Subtract(ptNow)));
         putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
 
-    }
-
-    private void putInProductDatabase(String SW, String Gen, double amt, Units unit, ProductTime exp) {
-        new ProductDatabase(this).addProduct(new Product(SW, Gen, amt, unit, exp));
-        super.finish();
     }
 
     private void unpackMultiChoice(Intent data)
@@ -125,10 +135,20 @@ public class CamActivity extends Activity {
         String generalName = searchResults.get(choice).generalWord;
         GregorianCalendar cal = new GregorianCalendar();
         cal.add(Calendar.DAY_OF_YEAR, searchResults.get(choice).TimeTilExpire);
-        double amount = 0;
-        Units unit = searchResults.get(choice).type;
-        ProductTime expireDate = new ProductTime(cal);
-        putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
+
+        unit = searchResults.get(choice).type;
+        expireDate = new ProductTime(cal);
+
+        Bundle b=new Bundle();
+        b.putBoolean("VerboseFlag", true);
+        Intent intentGoListActivity = new Intent(CamActivity.this, AmountActivity.class);
+        intentGoListActivity.putExtras(b);
+        startActivityForResult(intentGoListActivity, AMT_REQ);
+    }
+
+    private void putInProductDatabase(String SW, String Gen, double amt, Units unit, ProductTime exp) {
+        new ProductDatabase(this).addProduct(new Product(SW, Gen, amt, unit, exp));
+        super.finish();
     }
 
     private void decodeImage()
@@ -142,7 +162,7 @@ public class CamActivity extends Activity {
         {
             ProductDatabase producttlb = new ProductDatabase(this);
             ProductLookupTable plt = new ProductLookupTable(this);
-            String generalName;
+
             SpecficWord = image_trans.getItem();
             searchResults = PLTHelper.Search(plt, image_trans.getItem());
             if(searchResults.size() == 1)
@@ -150,10 +170,15 @@ public class CamActivity extends Activity {
                 generalName = searchResults.get(0).generalWord;
                 GregorianCalendar cal = new GregorianCalendar();
                 cal.add(Calendar.DAY_OF_YEAR, searchResults.get(0).TimeTilExpire);
-                double amount = 0;
-                Units unit = Units.CUP;
-                ProductTime expireDate = new ProductTime(cal);
-                putInProductDatabase(SpecficWord, generalName, amount, unit, expireDate);
+                amount = 0;
+                unit = Units.CUP;
+                expireDate = new ProductTime(cal);
+
+                Bundle b=new Bundle();
+                b.putBoolean("VerboseFlag", true);
+                Intent intentGoListActivity = new Intent(CamActivity.this, AmountActivity.class);
+                intentGoListActivity.putExtras(b);
+                startActivityForResult(intentGoListActivity, AMT_REQ);
             }
             else if(searchResults.size() > 1)
             {
@@ -231,7 +256,6 @@ public class CamActivity extends Activity {
         }
 
         //return image;
-
         // Create an File Uri
         return Uri.fromFile(image);
     }

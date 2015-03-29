@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -95,7 +96,16 @@ public class GuideActivity extends Activity {
         @Override
         public void onReceive(Context context, Intent intent) {
             // TODO Auto-generated method stub
-            next(null);
+            String wordSaid = intent.getStringExtra("SUCCESS WORD");
+            if(wordSaid.equals("next")) {
+                next(null);
+            }
+            else if(wordSaid.equals("back")){
+                prev(null);
+            }
+            else if(wordSaid.equals("repeat")){
+                repeat(null);
+            }
             String result = "Speak Hello";
             Intent i = SpeechActivationService.makeStartServiceIntent(GuideActivity.this, result);
             GuideActivity.this.startService(i);
@@ -146,12 +156,17 @@ public class GuideActivity extends Activity {
         if(index > 0) {
             index--;
             flipBackward();
+            next.setEnabled(true);
             speaker.read(recipe[index].getText());
         }
 
         if(index == 0) {
             prev.setEnabled(false);
         }
+    }
+
+    public void repeat(View v){
+        speaker.read(recipe[index].getText());
     }
 
     public void next(View v) {

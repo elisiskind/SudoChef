@@ -24,6 +24,7 @@ public class WordActivator implements SpeechActivator, RecognitionListener
     private Context context;
     private SpeechRecognizer recognizer;
     private SoundsLikeWordMatcher matcher;
+    public String successWord;
 
     private SpeechActivationListener resultListener;
 
@@ -105,7 +106,8 @@ public class WordActivator implements SpeechActivator, RecognitionListener
             WordList wordList = new WordList(possible);
             if (matcher.isIn(wordList.getWords()))
             {
-                Log.d(TAG, "HEARD IT!");
+                Log.d(TAG, "HEARD Possible" + possible);
+                successWord = possible;
                 heardTargetWord = true;
                 break;
             }
@@ -114,7 +116,7 @@ public class WordActivator implements SpeechActivator, RecognitionListener
         if (heardTargetWord)
         {
             stop();
-            resultListener.activated(true);
+            resultListener.activated(true, successWord);
         }
         else
         {

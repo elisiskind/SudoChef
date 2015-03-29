@@ -12,34 +12,14 @@ public class SpeechActivatorFactory
             SpeechActivationListener callback, String type)
     {
         SpeechActivator speechActivator = null;
-
-        speechActivator = new WordActivator(context, callback, "next");
+        String[] words = {"next", "back", "repeat"};
+        speechActivator = new WordActivator(context, callback, words);
         return speechActivator;
     }
     
     public static String getLabel(Context context, SpeechActivator speechActivator)
     {
         String label = "Listening";
-//        if (speechActivator == null)
-//        {
-//            label = context.getString(R.string.speech_activation_button);
-//        }
-//        else if (speechActivator instanceof WordActivator)
-//        {
-//            label = context.getString(R.string.speech_activation_speak);
-//        }
-//        else if ((speechActivator instanceof MovementActivator))
-//        {
-//            label = context.getString(R.string.speech_activation_movement);
-//        }
-//        else if ((speechActivator instanceof ClapperActivator))
-//        {
-//            label = context.getString(R.string.speech_activation_clap);
-//        }
-//        else
-//        {
-//            label = context.getString(R.string.speech_activation_button);
-//        }
         return label;
     }
 

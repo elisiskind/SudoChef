@@ -73,7 +73,7 @@ public class SpeechActivationService extends Service implements SpeechActivation
 			if (intent.hasExtra(ACTIVATION_STOP_INTENT_KEY))
 			{
 				Log.d(TAG, "stop service intent");
-				activated(false);
+				activated(false, null);
 			}
 			else
 			{
@@ -147,12 +147,14 @@ public class SpeechActivationService extends Service implements SpeechActivation
 		return different;
 	}
 	@Override
-	public void activated(boolean success)
+	public void activated(boolean success, String word)
 	{
 		// make sure the activator is stopped before doing anything else
 		stopActivator();
 		// broadcast result
 		Intent intent = new Intent(ACTIVATION_RESULT_BROADCAST_NAME);
+        intent.putExtra("SUCCESS WORD", word);
+        Log.d(TAG, "SUCCESS WORD: " + word);
 		sendBroadcast(intent);
 		
 		// always stop after receive an activation
