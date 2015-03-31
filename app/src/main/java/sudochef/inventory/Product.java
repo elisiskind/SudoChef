@@ -7,6 +7,7 @@ public class Product {
         amountUnit = u;
         date = d;
     }
+
     public Product(String n, String gen, double amt, Units u, ProductTime d) {
         name = n;
         generalName = gen;
@@ -15,21 +16,24 @@ public class Product {
         date = d;
     }
 
-    public boolean subtractFrom(double amt, Units u)
-    {
-        boolean successfulSubtract = false;
-        if(this.hasEnough(amt, u))
-        {
-            this.amount = this.amount - Units.convert(u, this.amountUnit, amt);
-            successfulSubtract = true;
+    public boolean remove(Product p) {
+        if (p.name.equals(this.name) && this.hasEnough(p.amount, p.amountUnit)) {
+            this.amount -= Units.convert(p.amountUnit, this.amountUnit, p.amount);
+            return true;
         }
-        return successfulSubtract;
+        return false;
     }
 
-    public boolean hasEnough(double amt, Units u)
-    {
+    public void add(Product p) {
+        if (p.name.equals(this.name)) {
+            this.amount += Units.convert(p.amountUnit, this.amountUnit, p.amount);
+        }
+    }
+
+    public boolean hasEnough(double amt, Units u) {
         return this.amount >= Units.convert(u, this.amountUnit, amt);
     }
+
     public String name;
     public String generalName;
     public double amount;

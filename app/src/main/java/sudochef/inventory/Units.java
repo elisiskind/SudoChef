@@ -12,8 +12,12 @@ public enum Units {
     POUND,
     OUNCE,
     GRAM,
-
-    METER;
+    METER,
+    STICK, // for butter
+    HEAD,
+    CLOVE,
+    CAN,
+    UNIT; // e.g. 2 eggs;
 
     public static Units contains(String test) {
 
@@ -75,6 +79,9 @@ public enum Units {
                     case LITER:
                     case POUND:
                     case OUNCE:
+                        break;
+                    case STICK:
+                        result = amt / 8;
                 }
                 break;
             case FLUIDOUNCE:
@@ -118,6 +125,8 @@ public enum Units {
                     case FLUIDOUNCE:
                         result = result * 8;
                         break;
+                    case STICK:
+                        result = amt * 2;
                     case LITER:
                     case POUND:
                     case OUNCE:
@@ -238,6 +247,15 @@ public enum Units {
                     case OUNCE:
                         result = amt;
                         break;
+                }
+                break;
+            case STICK:
+                switch (to) {
+                    case TABLESPOON:
+                        result = amt * 8;
+                        break;
+                    case CUP:
+                        result = amt / 2;
                 }
                 break;
             default:

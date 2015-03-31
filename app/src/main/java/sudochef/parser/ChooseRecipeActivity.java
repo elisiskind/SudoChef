@@ -10,6 +10,8 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.json.JSONException;
+
 import java.util.List;
 
 import sdp.sudochef.R;
@@ -24,9 +26,10 @@ import sudochef.yummly.HTTPGet;
  */
 public class ChooseRecipeActivity extends Activity {
 
-    String recipeId;
-    HTMLParser parser;
-    ProgressDialog progressDialog;
+    private String recipeId;
+    private HTMLParser parser;
+    private ProgressDialog progressDialog;
+    private String TAG = "SC.Choose";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +45,7 @@ public class ChooseRecipeActivity extends Activity {
             fetch(recipeId);
         } else {
             // Something went wrong
-            Log.e("SC.Choose", "No recipe id found");
+            Log.e(TAG, "No recipe id found");
         }
     }
 
@@ -64,7 +67,7 @@ public class ChooseRecipeActivity extends Activity {
      * @throws Exception
      */
     private void parseHTML(String recipe) throws Exception {
-        Log.d("Recipe Fetch", "HTTP GET returned string: " + recipe);
+        Log.d(TAG, "HTTP GET returned string: " + recipe);
         new AsyncRecipeParse().execute(recipe);
 
 
@@ -76,6 +79,13 @@ public class ChooseRecipeActivity extends Activity {
     private void display(){
         List<String> steps = parser.getSteps();
         LinearLayout root = (LinearLayout) findViewById(R.id.choose_recipe_layout);
+
+        Log.v(TAG, "Ingredients: " + parser.getIngredients());
+
+        try { new IngredientsParser(parser.getIngredients()).parse(); }
+        catch (JSONException e) {
+            Log.e(TAG, "Ingredients parsing did not work");
+        };
 
         // Display each step separately by adding views to the root layout object
         for(String step : steps) {

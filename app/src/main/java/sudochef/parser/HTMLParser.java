@@ -13,7 +13,6 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import sudochef.inventory.Product;
 import sudochef.yummly.Config;
 
 /**
@@ -24,6 +23,7 @@ public class HTMLParser {
     JSONObject recipeJSON;
     Document yummlyDoc;
     Document recipeDoc;
+    String ingredients;
     List<String> stepList;
 
     HTMLParser(String id, String recipe) {
@@ -34,6 +34,7 @@ public class HTMLParser {
         try {
             recipeJSON = new JSONObject(recipe);
             url = recipeJSON.getJSONObject("source").getString("sourceRecipeUrl");
+            ingredients = recipeJSON.getString("ingredientLines");
         } catch(Exception e) {
             Log.w("SC.HTMLParser", "JSON parser error");
         }
@@ -51,11 +52,6 @@ public class HTMLParser {
         }
 
         Log.i("SC.HTMLParser", "Parser initialized.");
-    }
-
-
-    List<Product> getIngredients(){
-        return null;
     }
 
     /**
@@ -152,5 +148,12 @@ public class HTMLParser {
      */
     public List<String> getSteps() {
         return stepList;
+    }
+
+    /**
+     * @return the String containing the ingredients
+     */
+    public String getIngredients() {
+        return ingredients;
     }
 }
