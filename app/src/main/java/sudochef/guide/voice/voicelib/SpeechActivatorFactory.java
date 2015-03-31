@@ -1,4 +1,4 @@
-package sudochef.voice.voicelib;
+package sudochef.guide.voice.voicelib;
 
 import android.content.Context;
 

@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import sudochef.bluetooth.OvenControl;
+import sudochef.guide.bluetooth.OvenControl;
 
 public class PreheatStep extends Step {
 

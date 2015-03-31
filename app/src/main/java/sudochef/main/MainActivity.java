@@ -13,7 +13,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import sdp.sudochef.R;
-import sudochef.bluetooth.DeviceListActivity;
+import sudochef.guide.bluetooth.DeviceListActivity;
 import sudochef.camera.CamActivity;
 import sudochef.guide.GuideActivity;
 import sudochef.yummly.SearchActivity;

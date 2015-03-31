@@ -53,15 +53,15 @@
             android:launchMode = "singleTask">
         </activity>
         <activity
-            android:name="sudochef.bluetooth.DeviceListActivity"
+            android:name="sudochef.guide.bluetooth.DeviceListActivity"
             android:label="@string/title_activity_device_list" >
         </activity>
         <activity
-            android:name="sudochef.bluetooth.SendDataActivity"
+            android:name="sudochef.guide.bluetooth.SendDataActivity"
             android:label="@string/title_activity_send_data" >
         </activity>
         <activity
-            android:name="sudochef.bluetooth.SendDataOven"
+            android:name="sudochef.guide.bluetooth.SendDataOven"
             android:label="SendDataOven" >
         </activity>
         <activity
@@ -76,7 +76,7 @@
             android:name="sudochef.userInput.AmountActivity"
             android:label="AmountActivity" >
         </activity>
-        <service android:name="sudochef.voice.voicelib.SpeechActivationService" >
+        <service android:name="sudochef.guide.voice.voicelib.SpeechActivationService" >
         </service>
     </application>
 

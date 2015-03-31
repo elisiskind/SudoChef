@@ -1,4 +1,4 @@
-package sudochef.voice.voicelib;
+package sudochef.guide.voice.voicelib;
 
 
 import android.annotation.SuppressLint;
@@ -7,7 +7,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Context;
 import android.content.Intent;
-import android.media.AudioManager;
 import android.os.Build;
 import android.os.IBinder;
 import android.util.Log;
@@ -33,7 +32,7 @@ public class SpeechActivationService extends Service implements SpeechActivation
 //	public static final String ACTIVATION_RESULT_BROADCAST_NAME =
 //	"root.gast.playground.speech.ACTIVATION";
 	public static final String ACTIVATION_RESULT_BROADCAST_NAME =
-	"sudochef.voice.processing";
+	"sudochef.guide.voice.processing";
 	/**
 	* send this when external code wants the Service to stop
 	*/

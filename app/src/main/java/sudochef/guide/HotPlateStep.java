@@ -4,7 +4,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 import android.widget.Toast;
 
-import sudochef.bluetooth.HotplateControl;
+import sudochef.guide.bluetooth.HotplateControl;
 
 public class HotPlateStep extends Step {
 

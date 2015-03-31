@@ -1,4 +1,4 @@
-package sudochef.voice.voicelib;
+package sudochef.guide.voice.voicelib;
 
 public class WordList
 {

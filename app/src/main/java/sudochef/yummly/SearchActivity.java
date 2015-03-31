@@ -28,7 +28,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import sdp.sudochef.R;
-import sudochef.database.ProductDatabase;
+import sudochef.inventory.database.ProductDatabase;
 import sudochef.inventory.Product;
 import sudochef.parser.ChooseRecipeActivity;
 

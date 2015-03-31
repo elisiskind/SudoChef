@@ -1,4 +1,4 @@
-package sudochef.voice.voicelib;
+package sudochef.guide.voice.voicelib;
 
 
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.media.AudioManager;
 import android.os.Bundle;
 import android.speech.RecognitionListener;
 import android.speech.RecognizerIntent;

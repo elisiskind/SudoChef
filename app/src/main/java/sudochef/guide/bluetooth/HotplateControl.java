@@ -1,4 +1,4 @@
-package sudochef.bluetooth;
+package sudochef.guide.bluetooth;
 
 import java.io.IOException;
 

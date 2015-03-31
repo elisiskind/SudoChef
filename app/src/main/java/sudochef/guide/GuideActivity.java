@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.animation.AnimationUtils;
@@ -18,8 +17,8 @@ import android.widget.ViewFlipper;
 
 import sdp.sudochef.R;
 import sudochef.parser.KeywordParser;
-import sudochef.voice.processing.ReadText;
-import sudochef.voice.voicelib.SpeechActivationService;
+import sudochef.guide.voice.processing.ReadText;
+import sudochef.guide.voice.voicelib.SpeechActivationService;
 //import sudochef.main.NotificationPublisher;
 
 
@@ -60,7 +59,7 @@ public class GuideActivity extends Activity {
     {
         super.onResume();
         if (!myReceiverIsRegistered) {
-            registerReceiver(myReceiver, new IntentFilter("sudochef.voice.processing"));
+            registerReceiver(myReceiver, new IntentFilter("sudochef.guide.voice.processing"));
             myReceiverIsRegistered = true;
         }
     }

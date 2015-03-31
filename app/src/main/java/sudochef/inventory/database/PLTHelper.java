@@ -1,4 +1,4 @@
-package sudochef.database;
+package sudochef.inventory.database;
 
 import android.util.Log;
 

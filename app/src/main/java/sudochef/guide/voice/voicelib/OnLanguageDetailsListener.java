@@ -1,4 +1,4 @@
-package sudochef.voice.voicelib;
+package sudochef.guide.voice.voicelib;
 
 /**
 * @author Greg Milette &#60;<a href="mailto:gregorym@gmail.com">gregorym@gmail.com</a>&#62;

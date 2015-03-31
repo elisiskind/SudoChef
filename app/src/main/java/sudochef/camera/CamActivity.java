@@ -22,10 +22,10 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import sudochef.database.LookupEntry;
-import sudochef.database.PLTHelper;
-import sudochef.database.ProductDatabase;
-import sudochef.database.ProductLookupTable;
+import sudochef.inventory.database.LookupEntry;
+import sudochef.inventory.database.PLTHelper;
+import sudochef.inventory.database.ProductDatabase;
+import sudochef.inventory.database.ProductLookupTable;
 import sudochef.inventory.Product;
 import sudochef.inventory.ProductTime;
 import sudochef.inventory.Units;

@@ -153,7 +153,15 @@ public class ProductParser {
             }
         }
 
-        // We couldn't find anything oh well
+        //if there is a comma or parens, assume everything after is a note and not the ingredient
+        if(ingredientString.contains(",")) {
+            int index = ingredientString.indexOf(",");
+            ingredientString = ingredientString.substring(0, index);
+        } else if(ingredientString.contains("(")) {
+            int index = ingredientString.indexOf("(");
+            ingredientString = ingredientString.substring(0, index);
+        }
+
         return ingredientString;
 
     };

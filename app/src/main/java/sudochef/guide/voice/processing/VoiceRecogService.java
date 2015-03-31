@@ -1,4 +1,4 @@
-package sudochef.voice.processing;
+package sudochef.guide.voice.processing;
 
 import java.lang.ref.WeakReference;
 
