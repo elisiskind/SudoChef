@@ -1,4 +1,4 @@
-package sudochef.yummly;
+package sudochef.search;
 
 import android.app.Activity;
 import android.content.Context;
@@ -12,6 +12,7 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import sdp.sudochef.R;
+import sudochef.search.yummly.RecipeResult;
 
 /**
  * This is a class that converts the array of recipe results into the views that are displayed by SearchActivity

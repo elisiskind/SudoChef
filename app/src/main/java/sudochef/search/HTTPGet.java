@@ -1,4 +1,4 @@
-package sudochef.yummly;
+package sudochef.search;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;

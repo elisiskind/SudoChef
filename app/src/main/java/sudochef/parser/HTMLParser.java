@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 
-import sudochef.yummly.Config;
+import sudochef.search.yummly.Config;
 
 /**
  * This class is responsible for fetching the html of a recipe from the source and extracting the recipe text from it

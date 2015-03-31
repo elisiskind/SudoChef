@@ -25,7 +25,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="sudochef.yummly.SearchActivity"
+            android:name="sudochef.search.SearchActivity"
             android:label="@string/title_activity_search"
             android:parentActivityName="sudochef.main.MainActivity" >
             <meta-data
@@ -37,7 +37,7 @@
             android:label="@string/title_activity_choose_recipe" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="sudochef.yummly.SearchActivity" />
+                android:value="sudochef.search.SearchActivity" />
         </activity>
         <activity
             android:name="sudochef.guide.GuideActivity"

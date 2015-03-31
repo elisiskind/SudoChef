@@ -1,4 +1,4 @@
-package sudochef.yummly;
+package sudochef.search;
 
 import android.app.ListActivity;
 import android.app.ProgressDialog;
@@ -31,6 +31,10 @@ import sdp.sudochef.R;
 import sudochef.inventory.database.ProductDatabase;
 import sudochef.inventory.Product;
 import sudochef.parser.ChooseRecipeActivity;
+import sudochef.search.yummly.ResponseParser;
+import sudochef.search.yummly.RecipeResult;
+import sudochef.search.yummly.Response;
+import sudochef.search.yummly.YummlySources;
 
 
 public class SearchActivity extends ListActivity {
@@ -167,8 +171,8 @@ public class SearchActivity extends ListActivity {
         progressDialog.dismiss();
 
         // Parse results
-        Parser parser = new Parser(result);
-        Response response = parser.ParseResponse();
+        ResponseParser responseParser = new ResponseParser(result);
+        Response response = responseParser.ParseResponse();
 
         // Add results to results list
         updateResults(response);

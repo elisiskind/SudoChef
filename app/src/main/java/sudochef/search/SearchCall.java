@@ -1,6 +1,8 @@
-package sudochef.yummly;
+package sudochef.search;
 
 import java.net.URLEncoder;
+
+import sudochef.search.yummly.Config;
 
 public class SearchCall {
     private final String BASE_URL = "http://api.yummly.com/v1/api/recipes?_app_id=";

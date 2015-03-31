@@ -16,8 +16,8 @@ import java.util.List;
 
 import sdp.sudochef.R;
 import sudochef.guide.GuideActivity;
-import sudochef.yummly.Config;
-import sudochef.yummly.HTTPGet;
+import sudochef.search.yummly.Config;
+import sudochef.search.HTTPGet;
 
 /**
  * @author Eli Siskind
