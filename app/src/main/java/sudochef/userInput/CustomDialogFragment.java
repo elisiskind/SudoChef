@@ -9,11 +9,14 @@ import android.support.v4.app.DialogFragment;
 import android.text.Editable;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
 import sdp.sudochef.R;
+import sudochef.inventory.CommonFood;
 
 
 /**
@@ -66,16 +69,20 @@ public class CustomDialogFragment extends DialogFragment {
         // Get the layout inflater
         inflater = getActivity().getLayoutInflater();
         View v= inflater.inflate(resource, null);
+
         // reference to the edittext
         //inflate the layout
-        builder.setView(inflater.inflate(resource, null))
+
+        final AutoCompleteTextView ed1 = (AutoCompleteTextView) v.findViewById(R.id.ItemNameVal);
+        ed1.setAdapter(new ArrayAdapter<String>(v.getContext(), R.layout.autocomplete, CommonFood.names()));
+        builder.setView(v)
                 // Add action buttons
                 .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int id) {
                         // get the users details and pass back to the activity
                         //here we pass dummy details
-                        final EditText ed1 = (EditText) getDialog().findViewById(R.id.ItemNameVal);
+                        final AutoCompleteTextView ed1 = (AutoCompleteTextView) getDialog().findViewById(R.id.ItemNameVal);
                         final EditText ed2 = (EditText) getDialog().findViewById(R.id.AmountVal);
                         final Spinner sp1 = (Spinner) getDialog().findViewById(R.id.Units_spinner);
                         final EditText ed4 = (EditText) getDialog().findViewById(R.id.ExpireVal);
@@ -91,8 +98,8 @@ public class CustomDialogFragment extends DialogFragment {
                         dialogListener.onCancel();
                     }
                 });
-        
-        
+
+
         return builder.create();
     }
 }

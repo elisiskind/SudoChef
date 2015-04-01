@@ -3,6 +3,8 @@ package sudochef.yummly;
 import android.graphics.Bitmap;
 import android.util.Log;
 
+import sudochef.search.HTTPGet;
+
 /**
  * This class represents
  */

@@ -15,12 +15,14 @@
         android:id="@+id/textView"
         android:layout_marginBottom="10dp"
         android:textColor="#0000FF"/>
-
-    <EditText
+    <AutoCompleteTextView
         android:id="@+id/ItemNameVal"
         android:layout_width="match_parent"
-        android:layout_height="fill_parent"
+        android:layout_height="wrap_content"
         android:hint="@string/hint_genName"
+        android:completionThreshold="1"
+        android:dropDownHeight="200dp"
+        android:completionHint="Select Option"
         android:ems="10" />
 
     <EditText
