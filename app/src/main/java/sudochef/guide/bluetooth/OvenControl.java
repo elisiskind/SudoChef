@@ -24,6 +24,7 @@ public class OvenControl extends DeviceControl {
     private static final int Stop = 0x3C;
 
     private static int OvenTemp = 350;
+    private static int OvenTime = 30;
 
 
     public OvenControl() throws IOException {
@@ -81,7 +82,45 @@ public class OvenControl extends DeviceControl {
        return true;
    }
    public boolean timer(int time) throws IOException{
-        //Implement time class
+       Log.d(TAG, "Timer");
+       sendData(Timer);
+       try {
+           Thread.sleep(1000);
+       } catch (InterruptedException e) {
+       }
+
+       if(time - OvenTemp > 0)
+       {
+           //For every interation of 5, loop and send an instruct
+           for (int i = 0; i < (time - OvenTime); i+=1) {
+               Log.d(TAG, "Up");
+               sendData(Up); //Raise temp by 1
+               try {
+                   Thread.sleep(1000);
+               } catch (InterruptedException e) {
+               }
+           }
+       }
+       else if(time - OvenTime < 0)
+       {
+           //For every interation of 5, loop and send an instruct
+           for (int i = 0; i < (Math.abs(time - OvenTime)); i+=1) {
+               Log.d(TAG, "Down");
+               sendData(Down); //decrease time by 1
+               try {
+                   Thread.sleep(1000);
+               } catch (InterruptedException e) {
+               }
+           }
+       }
+
+       Log.d(TAG, "Enter");
+       sendData(Enter);
+       try {
+           Thread.sleep(1000);
+       } catch (InterruptedException e) {
+       }
+       OvenTime = time;
         return true;
    }
 

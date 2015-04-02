@@ -44,7 +44,6 @@
     <string name="back_button">back</string>
     <string name="next_button">next</string>
 
-
     <string-array name="units_array">
         <item>TEASPOON</item>
         <item>TABLESPOON</item>
@@ -56,6 +55,13 @@
         <item>LITER</item>
         <item>POUND</item>
         <item>OUNCE</item>
+        <item>GRAM</item>
+        <item>METER</item>
+        <item>STICK</item>
+        <item>HEAD</item>
+        <item>CLOVE</item>
+        <item>CAN</item>
+        <item>UNIT</item>
     </string-array>
 
 </resources>

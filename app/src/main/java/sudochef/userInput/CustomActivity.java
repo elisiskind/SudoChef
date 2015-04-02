@@ -5,8 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentActivity;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Toast;
 
+import sdp.sudochef.R;
 
 
 /**
@@ -16,7 +19,8 @@ public class CustomActivity extends FragmentActivity implements CustomDialogFrag
 
     private String TAG = "CustomActivity";
     private String[] transportArray;
-    
+
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.d(TAG, "Creating Custom Activity");
@@ -28,6 +32,7 @@ public class CustomActivity extends FragmentActivity implements CustomDialogFrag
 
     private void showCustomDialog() {
         DialogFragment newFragment = new CustomDialogFragment();
+
         newFragment.show(getSupportFragmentManager(), "CustomDialogFragment");
     }
 
