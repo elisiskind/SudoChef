@@ -1,4 +1,4 @@
-package sudochef.parser;
+package sudochef.recipe;
 
 import junit.framework.TestCase;
 

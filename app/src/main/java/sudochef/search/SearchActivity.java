@@ -30,7 +30,7 @@ import java.util.List;
 import sdp.sudochef.R;
 import sudochef.inventory.database.ProductDatabase;
 import sudochef.inventory.Product;
-import sudochef.parser.ChooseRecipeActivity;
+import sudochef.recipe.ChooseRecipeActivity;
 import sudochef.search.yummly.ResponseParser;
 import sudochef.search.yummly.RecipeResult;
 import sudochef.search.yummly.Response;

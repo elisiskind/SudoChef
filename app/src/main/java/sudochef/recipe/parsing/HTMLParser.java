@@ -1,4 +1,4 @@
-package sudochef.parser;
+package sudochef.recipe.parsing;
 
 import android.util.Log;
 
@@ -26,7 +26,7 @@ public class HTMLParser {
     String ingredients;
     List<String> stepList;
 
-    HTMLParser(String id, String recipe) {
+    public HTMLParser(String id, String recipe) {
         // Get source URL from JSON
         String url = "";
         stepList = new LinkedList<>();

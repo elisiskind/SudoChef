@@ -1,4 +1,4 @@
-package sudochef.parser;
+package sudochef.recipe.parsing;
 
 import android.util.Log;
 

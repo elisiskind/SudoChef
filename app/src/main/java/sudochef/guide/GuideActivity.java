@@ -16,7 +16,7 @@ import android.widget.TextView;
 import android.widget.ViewFlipper;
 
 import sdp.sudochef.R;
-import sudochef.parser.KeywordParser;
+import sudochef.recipe.parsing.KeywordParser;
 import sudochef.guide.voice.processing.ReadText;
 import sudochef.guide.voice.voicelib.SpeechActivationService;
 //import sudochef.main.NotificationPublisher;

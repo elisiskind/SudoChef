@@ -1,4 +1,4 @@
-package sudochef.parser;
+package sudochef.recipe;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
@@ -16,6 +16,8 @@ import java.util.List;
 
 import sdp.sudochef.R;
 import sudochef.guide.GuideActivity;
+import sudochef.recipe.parsing.HTMLParser;
+import sudochef.recipe.parsing.IngredientsParser;
 import sudochef.search.yummly.Config;
 import sudochef.search.HTTPGet;
 
@@ -157,5 +159,13 @@ public class ChooseRecipeActivity extends Activity {
         List<String> steps = parser.getSteps();
         intent.putExtra("recipe",  steps.toArray(new String[steps.size()]));
         startActivity(intent);
+    }
+
+    public void viewShoppingList(View view) {
+
+    }
+
+    public void saveRecipe(View view) {
+
     }
 }

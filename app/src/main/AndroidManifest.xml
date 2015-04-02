@@ -33,7 +33,7 @@
                 android:value="sudochef.main.MainActivity" />
         </activity>
         <activity
-            android:name="sudochef.parser.ChooseRecipeActivity"
+            android:name="sudochef.recipe.ChooseRecipeActivity"
             android:label="@string/title_activity_choose_recipe" >
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
