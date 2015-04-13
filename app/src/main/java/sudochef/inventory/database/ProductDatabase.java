@@ -63,12 +63,12 @@ public class ProductDatabase extends SQLiteOpenHelper {
         return db.delete(TABLE_INVENTORY, KEY_NAME + "=?", new String[]{p});
     }
 
-    public Product getProduct(String s)
+    public Product findProduct(String s)
     {
         SQLiteDatabase db = this.getReadableDatabase();
         Cursor cursor = db.query(TABLE_INVENTORY,
                 new String[] { KEY_NAME, KEY_GENNAME, KEY_AMT, KEY_UNIT, KEY_DATEEXPIRE },
-                KEY_NAME + "=?",
+                KEY_GENNAME + "=?",
                 new String[] {s},
                 null, null, null, null);
 
