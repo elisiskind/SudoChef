@@ -71,19 +71,21 @@ public class ProductDatabase extends SQLiteOpenHelper {
                 KEY_GENNAME + "=?",
                 new String[] {s},
                 null, null, null, null);
-
+        Product prod = null;
         if (cursor != null)
         {
             cursor.moveToFirst();
         }
-        ProductTime date = new ProductTime(cursor.getString(4));
+        if(cursor.getCount() != 0)
+        {
+            ProductTime date = new ProductTime(cursor.getString(4));
 
-        Product prod = new Product(cursor.getString(0),
-                cursor.getString(1),
-                Double.parseDouble(cursor.getString(2)),
-                Units.valueOf(cursor.getString(3)),
-                date);
-
+            prod = new Product( cursor.getString(0),
+                                cursor.getString(1),
+                                Double.parseDouble(cursor.getString(2)),
+                                Units.valueOf(cursor.getString(3)),
+                                date);
+        }
         return prod;
     }
 
