@@ -77,6 +77,11 @@ public class OvenControl extends DeviceControl {
         OvenTemp = roundedTemp;
         return true;
     }
+
+    public void toast() throws IOException {
+        sendData(Toast);
+    }
+
    public boolean stopOven() throws IOException {
        sendData(Stop);
        return true;
