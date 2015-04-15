@@ -79,6 +79,8 @@ public class ShoppingItemAdapter extends ArrayAdapter<ShoppingProduct> {
         if(amt > 0) {
             String amountString = (amt == (long) amt) ? String.format("%d", (long) amt) : String.format("%s", amt);
             holder.txtAmount.setText(amountString + " " + unit);
+        } else {
+            holder.txtAmount.setText(" ");
         }
         holder.checkBox.setChecked(product.isChecked());
 
