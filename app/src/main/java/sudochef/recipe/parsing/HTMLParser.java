@@ -45,7 +45,7 @@ public class HTMLParser {
         Log.i("SC.HTMLParser", "Yummly URL: " + yummlyUrl);
 
         try {
-            yummlyDoc = Jsoup.connect(yummlyUrl).get();
+            //yummlyDoc = Jsoup.connect(yummlyUrl).get();
             recipeDoc = Jsoup.connect(url).get();
         } catch (IOException e) {
             Log.w("SC.HTMLParser", "Could not connect to get documents");
@@ -156,4 +156,25 @@ public class HTMLParser {
     public String getIngredients() {
         return ingredients;
     }
+
+    public String getImageURL() {
+        String url;
+        try {
+            url = recipeJSON.getJSONObject("images").getString("hostedSmallUrl");
+        } catch (JSONException e) {
+            url = "";
+        }
+        return url;
+    }
+
+    public String getName() {
+        String name;
+        try {
+            name = recipeJSON.getString("name");
+        } catch (JSONException e) {
+            name = "";
+        }
+        return name;
+    }
+
 }

@@ -13,9 +13,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import sdp.sudochef.R;
-import sudochef.guide.bluetooth.DeviceListActivity;
 import sudochef.camera.CamActivity;
 import sudochef.guide.GuideActivity;
+import sudochef.guide.bluetooth.DeviceListActivity;
+import sudochef.inventory.shopping.ShoppingListActivity;
 import sudochef.search.SearchActivity;
 
 public class MainActivity extends ActionBarActivity {
@@ -103,6 +104,29 @@ public class MainActivity extends ActionBarActivity {
     public void startRecipe(View view){
         Log.i(TAG, "Starting Guide Activity");
         Intent intent = new Intent(this, GuideActivity.class);
+        startActivity(intent);
+        overridePendingTransition(0, android.R.anim.fade_in);
+    }
+
+    public void viewSavedRecipes(View view){
+        /*
+        Log.i(TAG, "Starting Saved Recipes Activity");
+        Intent intent = new Intent(this, GuideActivity.class);
+        startActivity(intent);
+        overridePendingTransition(0, android.R.anim.fade_in);
+
+
+        ArrayList<SavedRecipe> recipes = new RecipeDatabase(this).listSavedRecipes();
+        for(SavedRecipe recipe : recipes) {
+            Log.v(TAG, recipe.getName());
+        }
+        */
+    }
+
+    public void viewShoppingList(View view){
+        //new ShoppingListDatabase(this).deleteTable();
+        Log.i(TAG, "Starting Shopping Activity");
+        Intent intent = new Intent(this, ShoppingListActivity.class);
         startActivity(intent);
         overridePendingTransition(0, android.R.anim.fade_in);
     }

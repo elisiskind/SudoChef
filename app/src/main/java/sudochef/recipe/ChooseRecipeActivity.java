@@ -12,14 +12,19 @@ import android.widget.TextView;
 
 import org.json.JSONException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import sdp.sudochef.R;
 import sudochef.guide.GuideActivity;
+import sudochef.inventory.Product;
+import sudochef.inventory.shopping.ShoppingListDatabase;
+import sudochef.inventory.shopping.ShoppingProduct;
+import sudochef.recipe.database.RecipeDatabase;
 import sudochef.recipe.parsing.HTMLParser;
 import sudochef.recipe.parsing.IngredientsParser;
-import sudochef.search.yummly.Config;
 import sudochef.search.HTTPGet;
+import sudochef.search.yummly.Config;
 
 /**
  * @author Eli Siskind
@@ -32,6 +37,7 @@ public class ChooseRecipeActivity extends Activity {
     private HTMLParser parser;
     private ProgressDialog progressDialog;
     private String TAG = "SC.Choose";
+    private boolean saved;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,8 +55,16 @@ public class ChooseRecipeActivity extends Activity {
             // Something went wrong
             Log.e(TAG, "No recipe id found");
         }
+
+        saved = new RecipeDatabase(this).contains(recipeId);
     }
 
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        saved = new RecipeDatabase(this).contains(recipeId);
+    }
 
     /**
      * Fetches the recipe JSON from Yummly
@@ -81,13 +95,6 @@ public class ChooseRecipeActivity extends Activity {
     private void display(){
         List<String> steps = parser.getSteps();
         LinearLayout root = (LinearLayout) findViewById(R.id.choose_recipe_layout);
-
-        Log.v(TAG, "Ingredients: " + parser.getIngredients());
-
-        try { new IngredientsParser(parser.getIngredients()).parse(); }
-        catch (JSONException e) {
-            Log.e(TAG, "Ingredients parsing did not work");
-        };
 
         // Display each step separately by adding views to the root layout object
         for(String step : steps) {
@@ -161,11 +168,37 @@ public class ChooseRecipeActivity extends Activity {
         startActivity(intent);
     }
 
-    public void viewShoppingList(View view) {
-
-    }
-
     public void saveRecipe(View view) {
-
+//        if(!saved) {
+//            Log.i(TAG, "Saving recipe");
+//            RecipeDatabase savedRecipes = new RecipeDatabase(this);
+//            savedRecipes.addRecipe(parser.getName(), recipeId, parser.getImageURL());
+//            saved = true;
+//            //TODO: change button
+//        } else {
+//            Log.i(TAG, "Recipe already saved");
+//            //TODO: unsave
+//        }
     }
+
+    public void saveAndAddToShoppingList(View view) {
+
+        this.saveRecipe(view);
+
+        ShoppingListDatabase shoppingList = new ShoppingListDatabase(this);
+
+        try {
+            ArrayList<Product> ingredients = new IngredientsParser(parser.getIngredients()).parse();
+            for(Product p : ingredients) {
+                ShoppingProduct product = new ShoppingProduct(p, recipeId, parser.getName());
+                if(product != null)
+                    shoppingList.addProduct(product);
+            }
+        }
+        catch (JSONException e) {
+            Log.e(TAG, "Ingredients parsing did not work");
+        };
+    }
+
+
 }

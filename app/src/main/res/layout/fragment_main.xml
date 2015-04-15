@@ -12,7 +12,7 @@
         android:gravity="center|fill_horizontal|center_vertical|bottom">
 
         <Button
-            android:id="@+id/button1"
+            android:id="@+id/find_recipes_button"
             android:layout_width="300dip"
             android:layout_height="60dip"
             android:text="@string/start_search"
@@ -23,19 +23,31 @@
             android:layout_gravity="center_horizontal" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/saved_recipe_button"
             android:layout_width="300dip"
             android:layout_height="60dip"
             android:layout_marginTop="20dip"
-            android:text="@string/start_recipe_button"
-            android:onClick="startRecipe"
+            android:text="@string/saved_recipes_button"
+            android:onClick="viewSavedRecipes"
             android:textSize="24sp"
             android:typeface="normal"
             android:background="@drawable/mybutton"
             android:layout_gravity="center_horizontal" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/shopping_list_button"
+            android:layout_width="300dip"
+            android:layout_height="60dip"
+            android:layout_marginTop="20dip"
+            android:text="@string/shopping_list_button"
+            android:onClick="viewShoppingList"
+            android:textSize="24sp"
+            android:typeface="normal"
+            android:background="@drawable/mybutton"
+            android:layout_gravity="center_horizontal" />
+
+        <Button
+            android:id="@+id/add_product_button"
             android:layout_width="300dip"
             android:layout_height="60dip"
             android:layout_marginTop="20dip"
@@ -47,7 +59,7 @@
             android:layout_gravity="center_horizontal" />
 
         <Button
-            android:id="@+id/button4"
+            android:id="@+id/bluetooth_button"
             android:layout_width="300dip"
             android:layout_height="60dip"
             android:layout_marginTop="20dip"
