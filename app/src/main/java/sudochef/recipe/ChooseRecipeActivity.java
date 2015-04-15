@@ -18,6 +18,7 @@ import java.util.List;
 import sdp.sudochef.R;
 import sudochef.guide.GuideActivity;
 import sudochef.inventory.Product;
+import sudochef.inventory.Units;
 import sudochef.inventory.shopping.ShoppingListDatabase;
 import sudochef.inventory.shopping.ShoppingProduct;
 import sudochef.recipe.database.RecipeDatabase;
@@ -50,7 +51,12 @@ public class ChooseRecipeActivity extends Activity {
             progressDialog = new ProgressDialog(this);
             progressDialog.setMessage("Loading. Please wait...");
             progressDialog.setCancelable(false);
-            fetch(recipeId);
+            if(!recipeId.equals("demo")) {
+                fetch(recipeId);
+            } else {
+                display();
+            }
+
         } else {
             // Something went wrong
             Log.e(TAG, "No recipe id found");
@@ -93,7 +99,19 @@ public class ChooseRecipeActivity extends Activity {
      * Displays a preview of the steps of the recipe.
      */
     private void display(){
-        List<String> steps = parser.getSteps();
+
+        List<String> steps = null;
+
+        if(recipeId.equals("demo")) {
+            steps = new ArrayList<>();
+            steps.add("Crack eggs into bowl and beat with heavy cream.");
+            steps.add("Pour eggs into frying pan, and heat over medium heat.");
+            steps.add("While eggs are cooking, toast bread.");
+            steps.add("Spread butter onto toast, and enjoy eggs with toast.");
+        } else {
+            steps = parser.getSteps();
+        }
+
         LinearLayout root = (LinearLayout) findViewById(R.id.choose_recipe_layout);
 
         // Display each step separately by adding views to the root layout object
@@ -187,17 +205,23 @@ public class ChooseRecipeActivity extends Activity {
 
         ShoppingListDatabase shoppingList = new ShoppingListDatabase(this);
 
-        try {
-            ArrayList<Product> ingredients = new IngredientsParser(parser.getIngredients()).parse();
-            for(Product p : ingredients) {
-                ShoppingProduct product = new ShoppingProduct(p, recipeId, parser.getName());
-                if(product != null)
-                    shoppingList.addProduct(product);
+        if(recipeId.equals("demo")) {
+            shoppingList.addProduct(new ShoppingProduct(false, "Eggs", Units.UNIT, 4.0, "demo", "Eggs and Toast"));
+            shoppingList.addProduct(new ShoppingProduct(false, "Sliced Bread", Units.UNIT, 4.0, "demo", "Eggs and Toast"));
+        } else {
+
+            try {
+                ArrayList<Product> ingredients = new IngredientsParser(parser.getIngredients()).parse();
+                for (Product p : ingredients) {
+                    ShoppingProduct product = new ShoppingProduct(p, recipeId, parser.getName());
+                    if (product != null)
+                        shoppingList.addProduct(product);
+                }
+            } catch (JSONException e) {
+                Log.e(TAG, "Ingredients parsing did not work");
             }
+            ;
         }
-        catch (JSONException e) {
-            Log.e(TAG, "Ingredients parsing did not work");
-        };
     }
 
 

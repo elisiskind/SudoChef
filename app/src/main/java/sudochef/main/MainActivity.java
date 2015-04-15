@@ -18,6 +18,7 @@ import sudochef.guide.GuideActivity;
 import sudochef.guide.bluetooth.DeviceListActivity;
 import sudochef.inventory.shopping.ShoppingListActivity;
 import sudochef.recipe.SavedRecipesActivity;
+import sudochef.recipe.database.RecipeDatabase;
 import sudochef.search.SearchActivity;
 
 public class MainActivity extends ActionBarActivity {
@@ -110,6 +111,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void viewSavedRecipes(View view){
+        new RecipeDatabase(this).addRecipe("Eggs and toast", "demo", "");
         Log.i(TAG, "Starting Saved Recipes Activity");
         Intent intent = new Intent(this, SavedRecipesActivity.class);
         startActivity(intent);
