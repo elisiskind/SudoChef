@@ -77,5 +77,6 @@
     <string name="save_recipe_button">Save</string>
     <string name="add_to_shopping_list_button">Add to Shopping List</string>
     <string name="clear_checked_button">Clear Checked Items</string>
+    <string name="delete_recipe_text">Delete recipe?</string>
 
 </resources>

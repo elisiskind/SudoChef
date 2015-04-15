@@ -1,18 +1,40 @@
 package sudochef.recipe;
 
-import android.support.v7.app.ActionBarActivity;
+import android.app.ListActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
 
 import sdp.sudochef.R;
+import sudochef.recipe.database.RecipeDatabase;
+import sudochef.recipe.database.SavedRecipe;
+import sudochef.recipe.database.SavedRecipeAdapter;
 
-public class SavedRecipesActivity extends ActionBarActivity {
+public class SavedRecipesActivity extends ListActivity {
+
+    private ArrayList<SavedRecipe> items;
+    private ListView listView;
+    private ArrayAdapter<SavedRecipe> adapter;
+    private String TAG = "SC.SavedRecipeActivity";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_saved_recipes);
+
+
+        items = new RecipeDatabase(this).listSavedRecipes();
+        Log.d(TAG, "Found " + items.size() + " items.");
+        listView = getListView();
+        adapter = new SavedRecipeAdapter(this, R.layout.saved_recipe_row, items);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 
 
@@ -36,5 +58,23 @@ public class SavedRecipesActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void delete(View view) {
+        RecipeDatabase db = new RecipeDatabase(this);
+
+        // Recipe id is stored as tag in the button
+        String id = (String) view.getTag();
+
+        // Delete recipe from database with that id
+        db.deleteRecipe(id);
+
+        // Refresh list items
+        items = db.listSavedRecipes();
+        Log.d(TAG, "Found " + items.size() + " items.");
+        listView = getListView();
+        adapter = new SavedRecipeAdapter(this, R.layout.saved_recipe_row, items);
+        listView.setAdapter(adapter);
+        adapter.notifyDataSetChanged();
     }
 }

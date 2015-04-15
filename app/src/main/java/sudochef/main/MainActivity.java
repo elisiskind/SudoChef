@@ -17,6 +17,7 @@ import sudochef.camera.CamActivity;
 import sudochef.guide.GuideActivity;
 import sudochef.guide.bluetooth.DeviceListActivity;
 import sudochef.inventory.shopping.ShoppingListActivity;
+import sudochef.recipe.SavedRecipesActivity;
 import sudochef.search.SearchActivity;
 
 public class MainActivity extends ActionBarActivity {
@@ -109,18 +110,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void viewSavedRecipes(View view){
-        /*
         Log.i(TAG, "Starting Saved Recipes Activity");
-        Intent intent = new Intent(this, GuideActivity.class);
+        Intent intent = new Intent(this, SavedRecipesActivity.class);
         startActivity(intent);
         overridePendingTransition(0, android.R.anim.fade_in);
-
-
-        ArrayList<SavedRecipe> recipes = new RecipeDatabase(this).listSavedRecipes();
-        for(SavedRecipe recipe : recipes) {
-            Log.v(TAG, recipe.getName());
-        }
-        */
     }
 
     public void viewShoppingList(View view){

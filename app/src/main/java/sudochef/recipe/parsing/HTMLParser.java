@@ -21,10 +21,10 @@ import sudochef.search.yummly.Config;
 public class HTMLParser {
 
     JSONObject recipeJSON;
-    Document yummlyDoc;
     Document recipeDoc;
     String ingredients;
     List<String> stepList;
+    private String TAG = "SC.HTMLParser";
 
     public HTMLParser(String id, String recipe) {
         // Get source URL from JSON
@@ -102,6 +102,7 @@ public class HTMLParser {
                     Elements steps = directions.getElementsByTag("li");
                     for (Element step : steps) {
                         String text = step.child(0).text();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -111,6 +112,7 @@ public class HTMLParser {
                     Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
                     for (Element step : steps) {
                         String text = step.text().trim();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -120,6 +122,7 @@ public class HTMLParser {
                     Elements steps = recipeDoc.select("div.procedure-text");
                     for (Element step : steps) {
                         String text = step.child(1).text();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -130,6 +133,7 @@ public class HTMLParser {
                     Elements steps = directions.getElementsByTag("p");
                     for (Element step : steps) {
                         String text = step.text();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -160,9 +164,14 @@ public class HTMLParser {
     public String getImageURL() {
         String url;
         try {
-            url = recipeJSON.getJSONObject("images").getString("hostedSmallUrl");
+            JSONObject urls = recipeJSON.getJSONObject("images");
+
+            url = "";
+            //url = urls.getString("hostedSmallUrl");
+            Log.i(TAG, "Image URLs: " + url);
         } catch (JSONException e) {
             url = "";
+            Log.d(TAG, "No image found");
         }
         return url;
     }

@@ -62,9 +62,14 @@ public class ShoppingItemAdapter extends ArrayAdapter<ShoppingProduct> {
 
         // set first letter uppercase
         String name = product.getName();
-        char[] stringArray = name.trim().toCharArray();
-        stringArray[0] = Character.toUpperCase(stringArray[0]);
-        name = new String(stringArray);
+
+        try {
+            char[] stringArray = name.trim().toCharArray();
+            stringArray[0] = Character.toUpperCase(stringArray[0]);
+            name = new String(stringArray);
+        } catch (Exception e) {
+
+        }
 
         holder.txtName.setText(name);
 
