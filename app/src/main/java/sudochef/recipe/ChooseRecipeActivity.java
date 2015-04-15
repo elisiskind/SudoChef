@@ -169,16 +169,16 @@ public class ChooseRecipeActivity extends Activity {
     }
 
     public void saveRecipe(View view) {
-//        if(!saved) {
-//            Log.i(TAG, "Saving recipe");
-//            RecipeDatabase savedRecipes = new RecipeDatabase(this);
-//            savedRecipes.addRecipe(parser.getName(), recipeId, parser.getImageURL());
-//            saved = true;
-//            //TODO: change button
-//        } else {
-//            Log.i(TAG, "Recipe already saved");
-//            //TODO: unsave
-//        }
+        if(!saved) {
+            Log.i(TAG, "Saving recipe");
+            RecipeDatabase savedRecipes = new RecipeDatabase(this);
+            savedRecipes.addRecipe(parser.getName(), recipeId, parser.getImageURL());
+            saved = true;
+            //TODO: change button
+        } else {
+            Log.i(TAG, "Recipe already saved");
+            //TODO: unsave
+        }
     }
 
     public void saveAndAddToShoppingList(View view) {
