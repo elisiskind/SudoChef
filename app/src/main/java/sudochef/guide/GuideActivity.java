@@ -132,11 +132,13 @@ public class GuideActivity extends Activity {
     }
 
     private void makeTestRecipe() {
-        recipe = new Step[3];
+        recipe = new Step[4];
 
-        recipe[0] = new PreheatStep("Preheat oven to 450.", 450);
-        recipe[1] = new Step("Chop onions, garlic, and tomatoes and add to saucepan.");
-        recipe[2] = new HotPlateStep("Boil two quarts of water.", HotPlateStep.HIGH);
+        recipe[0] = new Step("Crack eggs into bowl and beat with heavy cream.");
+        recipe[1] = new HotPlateStep("Pour eggs into frying pan, and heat over medium heat.", HotPlateStep.LOW);
+        recipe[2] = new ToastStep("While eggs are cooking, toast bread.");
+        recipe[3] = new Step("Spread butter onto toast, and enjoy eggs with toast.");
+
     }
 
     public void start() {
