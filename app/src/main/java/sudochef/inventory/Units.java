@@ -1,23 +1,39 @@
 package sudochef.inventory;
 
 public enum Units {
-    TEASPOON,
-    TABLESPOON,
-    FLUIDOUNCE,
-    CUP,
-    PINT,
-    QUART,
-    GALLON,
-    LITER,
-    POUND,
-    OUNCE,
-    GRAM,
-    METER,
-    STICK, // for butter
-    HEAD,
-    CLOVE,
-    CAN,
-    UNIT; // e.g. 2 eggs;
+    TEASPOON("teaspoon", "teaspoons"),
+    TABLESPOON("tablespoon", "tablespoons"),
+    FLUIDOUNCE("fluid ounce", "fluid ounces"),
+    CUP("cup", "cups"),
+    PINT("pint", "pints"),
+    QUART("quart", "quarts"),
+    GALLON("gallon", "gallons"),
+    LITER("liter", "liters"),
+    POUND("pound", "pounds"),
+    OUNCE("ounce", "ounces"),
+    GRAM("gram", "grams"),
+    METER("meter", "meters"),
+    STICK("stick", "sticks"), // for butter
+    HEAD("head", "heads"),
+    CLOVE("clove", "cloves"),
+    CAN("can", "cans"),
+    UNIT("", ""); // e.g. 2 eggs;
+
+    private String singularName;
+    private String pluralName;
+
+    public String getSingularName() {
+        return singularName;
+    }
+
+    public String getPluralName() {
+        return pluralName;
+    }
+
+    private Units(String singularName, String pluralName) {
+        this.singularName = singularName;
+        this.pluralName = pluralName;
+    }
 
     public static Units contains(String test) {
 
