@@ -66,6 +66,9 @@ public class ShoppingListActivity extends ListActivity {
         ShoppingListDatabase db = new ShoppingListDatabase(this);
         db.deleteChecked();
         items = db.getAllProducts();
+        listView = getListView();
+        adapter = new ShoppingItemAdapter(this, R.layout.list_item_row, items);
+        listView.setAdapter(adapter);
         adapter.notifyDataSetChanged();
     }
 

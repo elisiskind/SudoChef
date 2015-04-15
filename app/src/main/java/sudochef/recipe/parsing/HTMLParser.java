@@ -24,12 +24,16 @@ public class HTMLParser {
     Document recipeDoc;
     String ingredients;
     List<String> stepList;
+    String id;
     private String TAG = "SC.HTMLParser";
 
     public HTMLParser(String id, String recipe) {
         // Get source URL from JSON
         String url = "";
+        this.id = id;
         stepList = new LinkedList<>();
+
+        if(id.equals("demo")) return;
 
         try {
             recipeJSON = new JSONObject(recipe);
@@ -58,6 +62,15 @@ public class HTMLParser {
      * Extract the text of the directions from the recipe HTML
      */
     public void findDirections() {
+
+        if(id.equals("demo")) {
+            stepList.add("Crack eggs into bowl and beat with heavy cream.");
+            stepList.add("Pour eggs into frying pan, and heat over medium heat.");
+            stepList.add("While eggs are cooking, toast bread.");
+            stepList.add("Spread butter onto toast, and enjoy eggs with toast.");
+            return;
+        }
+
         String source = "";
         try {
             source = recipeJSON.getJSONObject("source").getString("sourceDisplayName");

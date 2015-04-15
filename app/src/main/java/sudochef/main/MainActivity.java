@@ -111,7 +111,7 @@ public class MainActivity extends ActionBarActivity {
     }
 
     public void viewSavedRecipes(View view){
-        new RecipeDatabase(this).addRecipe("Eggs and toast", "demo", "");
+        new RecipeDatabase(this).addRecipe("Scrambled Eggs and Toast", "demo", "");
         Log.i(TAG, "Starting Saved Recipes Activity");
         Intent intent = new Intent(this, SavedRecipesActivity.class);
         startActivity(intent);

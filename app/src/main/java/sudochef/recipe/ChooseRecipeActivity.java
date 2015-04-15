@@ -54,6 +54,8 @@ public class ChooseRecipeActivity extends Activity {
             if(!recipeId.equals("demo")) {
                 fetch(recipeId);
             } else {
+                parser = new HTMLParser(recipeId, "");
+                parser.findDirections();
                 display();
             }
 
@@ -102,15 +104,7 @@ public class ChooseRecipeActivity extends Activity {
 
         List<String> steps = null;
 
-        if(recipeId.equals("demo")) {
-            steps = new ArrayList<>();
-            steps.add("Crack eggs into bowl and beat with heavy cream.");
-            steps.add("Pour eggs into frying pan, and heat over medium heat.");
-            steps.add("While eggs are cooking, toast bread.");
-            steps.add("Spread butter onto toast, and enjoy eggs with toast.");
-        } else {
-            steps = parser.getSteps();
-        }
+        steps = parser.getSteps();
 
         LinearLayout root = (LinearLayout) findViewById(R.id.choose_recipe_layout);
 
@@ -206,8 +200,8 @@ public class ChooseRecipeActivity extends Activity {
         ShoppingListDatabase shoppingList = new ShoppingListDatabase(this);
 
         if(recipeId.equals("demo")) {
-            shoppingList.addProduct(new ShoppingProduct(false, "Eggs", Units.UNIT, 4.0, "demo", "Eggs and Toast"));
-            shoppingList.addProduct(new ShoppingProduct(false, "Sliced Bread", Units.UNIT, 4.0, "demo", "Eggs and Toast"));
+            shoppingList.addProduct(new ShoppingProduct(false, "Eggs", Units.UNIT, 4.0, "demo", "Scrambled Eggs and Toast"));
+            shoppingList.addProduct(new ShoppingProduct(false, "Sliced Bread", Units.UNIT, 4.0, "demo", "Scrambled Eggs and Toast"));
         } else {
 
             try {
