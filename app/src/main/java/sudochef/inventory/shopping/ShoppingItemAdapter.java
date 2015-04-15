@@ -76,9 +76,10 @@ public class ShoppingItemAdapter extends ArrayAdapter<ShoppingProduct> {
         double amt = product.getAmount();
         String unit = amt == 1 ? product.getUnit().getSingularName() : product.getUnit().getPluralName();
 
-        String amountString = (amt == (long) amt) ? String.format("%d",(long)amt) : String.format("%s",amt);
-
-        holder.txtAmount.setText(amountString + " " + unit);
+        if(amt > 0) {
+            String amountString = (amt == (long) amt) ? String.format("%d", (long) amt) : String.format("%s", amt);
+            holder.txtAmount.setText(amountString + " " + unit);
+        }
         holder.checkBox.setChecked(product.isChecked());
 
         holder.checkBox.setTag(product.getName());
