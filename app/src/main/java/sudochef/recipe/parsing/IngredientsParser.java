@@ -29,11 +29,13 @@ public class IngredientsParser {
         products = new ArrayList<>(ingredientsArray.length());
     }
 
-    public void parse() throws JSONException {
+    public ArrayList<Product> parse() throws JSONException {
         for(int i = 0; i < ingredientsArray.length(); i++) {
             ProductParser parser = new ProductParser(ingredientsArray.getString(i));
             Log.v(TAG, ingredientsArray.getString(i));
             products.add(i, parser.parse());
         }
+
+        return products;
     }
 }

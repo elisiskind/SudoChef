@@ -8,7 +8,7 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
-    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>
+    <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
 
     <application
         android:allowBackup="true"
@@ -50,7 +50,7 @@
         <activity
             android:name="sudochef.camera.CamActivity"
             android:label="@string/title_activity_cam"
-            android:launchMode = "singleTask">
+            android:launchMode="singleTask" >
         </activity>
         <activity
             android:name="sudochef.guide.bluetooth.DeviceListActivity"
@@ -76,8 +76,26 @@
             android:name="sudochef.userInput.AmountActivity"
             android:label="AmountActivity" >
         </activity>
+
         <service android:name="sudochef.guide.voice.voicelib.SpeechActivationService" >
         </service>
+
+        <activity
+            android:name="sudochef.inventory.shopping.ShoppingListActivity"
+            android:label="@string/title_activity_shopping_list"
+            android:parentActivityName="sudochef.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sudochef.main.MainActivity" />
+        </activity>
+        <activity
+            android:name="sudochef.recipe.SavedRecipesActivity"
+            android:label="@string/title_activity_saved_recipes"
+            android:parentActivityName="sudochef.main.MainActivity" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="sudochef.main.MainActivity" />
+        </activity>
     </application>
 
 </manifest>

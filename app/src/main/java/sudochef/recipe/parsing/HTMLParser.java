@@ -21,15 +21,19 @@ import sudochef.search.yummly.Config;
 public class HTMLParser {
 
     JSONObject recipeJSON;
-    Document yummlyDoc;
     Document recipeDoc;
     String ingredients;
     List<String> stepList;
+    String id;
+    private String TAG = "SC.HTMLParser";
 
     public HTMLParser(String id, String recipe) {
         // Get source URL from JSON
         String url = "";
+        this.id = id;
         stepList = new LinkedList<>();
+
+        if(id.equals("demo")) return;
 
         try {
             recipeJSON = new JSONObject(recipe);
@@ -45,7 +49,7 @@ public class HTMLParser {
         Log.i("SC.HTMLParser", "Yummly URL: " + yummlyUrl);
 
         try {
-            yummlyDoc = Jsoup.connect(yummlyUrl).get();
+            //yummlyDoc = Jsoup.connect(yummlyUrl).get();
             recipeDoc = Jsoup.connect(url).get();
         } catch (IOException e) {
             Log.w("SC.HTMLParser", "Could not connect to get documents");
@@ -58,6 +62,15 @@ public class HTMLParser {
      * Extract the text of the directions from the recipe HTML
      */
     public void findDirections() {
+
+        if(id.equals("demo")) {
+            stepList.add("Crack eggs into bowl and beat with heavy cream.");
+            stepList.add("Pour eggs into frying pan, and heat over medium heat.");
+            stepList.add("While eggs are cooking, toast bread.");
+            stepList.add("Spread butter onto toast, and enjoy eggs with toast.");
+            return;
+        }
+
         String source = "";
         try {
             source = recipeJSON.getJSONObject("source").getString("sourceDisplayName");
@@ -102,6 +115,7 @@ public class HTMLParser {
                     Elements steps = directions.getElementsByTag("li");
                     for (Element step : steps) {
                         String text = step.child(0).text();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -111,6 +125,7 @@ public class HTMLParser {
                     Elements steps = recipeDoc.getElementsByAttributeValue("itemprop", "recipeInstructions");
                     for (Element step : steps) {
                         String text = step.text().trim();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -120,6 +135,7 @@ public class HTMLParser {
                     Elements steps = recipeDoc.select("div.procedure-text");
                     for (Element step : steps) {
                         String text = step.child(1).text();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -130,6 +146,7 @@ public class HTMLParser {
                     Elements steps = directions.getElementsByTag("p");
                     for (Element step : steps) {
                         String text = step.text();
+                        if(!text.isEmpty())
                         stepList.add(text);
                     }
                     break;
@@ -156,4 +173,30 @@ public class HTMLParser {
     public String getIngredients() {
         return ingredients;
     }
+
+    public String getImageURL() {
+        String url;
+        try {
+            JSONObject urls = recipeJSON.getJSONObject("images");
+
+            url = "";
+            //url = urls.getString("hostedSmallUrl");
+            Log.i(TAG, "Image URLs: " + url);
+        } catch (JSONException e) {
+            url = "";
+            Log.d(TAG, "No image found");
+        }
+        return url;
+    }
+
+    public String getName() {
+        String name;
+        try {
+            name = recipeJSON.getString("name");
+        } catch (JSONException e) {
+            name = "";
+        }
+        return name;
+    }
+
 }

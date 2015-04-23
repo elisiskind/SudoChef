@@ -29,7 +29,7 @@ public class ProductParser {
 
             Log.v(TAG, amt + " - " + unit + " - " + name);
 
-            return new Product(name, amt, unit, null);
+            return new Product(name, name, amt, unit, null);
     }
 
     /**
