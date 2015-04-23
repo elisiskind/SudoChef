@@ -149,7 +149,7 @@ public class DeviceListActivity extends Activity {
                     i.putExtra(EXTRA_DEVICE_ADDRESS, address);
                     startActivity(i);
                 } else if (choice == 1) {
-                    String address = "30:14:11:25:21:84";
+                    String address = "30:14:12:02:24:83";
                     Intent i = new Intent(DeviceListActivity.this, SendDataActivity.class);
                     i.putExtra(EXTRA_DEVICE_ADDRESS, address);
                     startActivity(i);

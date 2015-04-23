@@ -6,6 +6,7 @@ import android.bluetooth.BluetoothSocket;
 import android.util.Log;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.UUID;
 
@@ -17,6 +18,7 @@ public abstract class DeviceControl {
     private BluetoothAdapter btAdapter = null;
     private BluetoothSocket btSocket = null;
     private OutputStream outStream = null;
+    private InputStream inputStream = null;
     private static final UUID MY_UUID = UUID.fromString("00001101-0000-1000-8000-00805F9B34FB");
     //Constructor
     public DeviceControl(String MAC) throws IOException {
@@ -48,15 +50,15 @@ public abstract class DeviceControl {
         // Create a data stream so we can talk to the device
         try {
             outStream = btSocket.getOutputStream();
+            inputStream =btSocket.getInputStream();
         } catch (IOException e) {
-            Log.d(TAG, "ERROR - Could not create bluetooth outstream");
+            Log.d(TAG, "ERROR - Could not create bluetooth outstream/instream");
             btSocket.close();
             throw e;
         }
     }
 
     protected void sendData(int message) throws IOException {
-
         try {
             //attempt to place data on the outstream to the BT device
             Log.d(TAG, "Sending:" + message);
@@ -66,6 +68,7 @@ public abstract class DeviceControl {
             Log.d(TAG, "Could not write to bluetooth buffer");
             throw e;
         }
+
     }
 
     private void checkBTState() throws IOException{
@@ -80,6 +83,8 @@ public abstract class DeviceControl {
         }
     }
 
+
+
     public void close(){
         try {
             btSocket.close();
@@ -88,6 +93,11 @@ public abstract class DeviceControl {
         }
         try {
             outStream.close();
+        } catch (IOException e) {
+            Log.d(TAG, "Could not close stream");
+        }
+        try {
+            inputStream.close();
         } catch (IOException e) {
             Log.d(TAG, "Could not close stream");
         }

@@ -107,7 +107,9 @@ public class SendDataOven extends Activity {
             public void onClick(View v) {
                 // sendData("1");
                 try{
-                    outStream.write(0x18);
+                    for(int i = 0; i<2; i++) {
+                        outStream.write(0x18);
+                    }
                 }catch (IOException e) {
                     //if the sending fails this is most likely because device is no longer there
                     Toast.makeText(getBaseContext(), "ERROR - Device not found", Toast.LENGTH_SHORT).show();
