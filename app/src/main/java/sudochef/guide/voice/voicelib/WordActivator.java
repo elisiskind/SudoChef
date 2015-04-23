@@ -131,7 +131,7 @@ public class WordActivator implements SpeechActivator, RecognitionListener
         if ((errorCode == SpeechRecognizer.ERROR_NO_MATCH)
                 || (errorCode == SpeechRecognizer.ERROR_SPEECH_TIMEOUT))
         {
-            Log.v(TAG, "didn't recognize anything");
+           // Log.v(TAG, "didn't recognize anything");
             // keep going
             recognizeSpeechDirectly();
         }
@@ -161,7 +161,7 @@ public class WordActivator implements SpeechActivator, RecognitionListener
     @Override
     public void onReadyForSpeech(Bundle params)
     {
-        Log.v(TAG, "ready for speech " + params);
+       // Log.v(TAG, "ready for speech " + params);
     }
 
     @Override

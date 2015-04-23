@@ -177,6 +177,7 @@ public class ChooseRecipeActivity extends Activity {
         Intent intent = new Intent(this, GuideActivity.class);
         List<String> steps = parser.getSteps();
         intent.putExtra("recipe",  steps.toArray(new String[steps.size()]));
+        intent.putExtra("id", recipeId);
         startActivity(intent);
     }
 

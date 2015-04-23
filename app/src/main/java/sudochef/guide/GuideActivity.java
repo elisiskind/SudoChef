@@ -113,7 +113,7 @@ public class GuideActivity extends Activity {
 
     private void constructRecipe() {
         Bundle extras = getIntent().getExtras();
-        if (extras != null) {
+        if (extras != null && !extras.get("id").equals("demo")) {
             String[] recipeSteps = (String[]) extras.get("recipe");
             recipe = new KeywordParser(recipeSteps).parseRecipe();
         } else {
@@ -134,10 +134,12 @@ public class GuideActivity extends Activity {
     private void makeTestRecipe() {
         recipe = new Step[4];
 
-        recipe[0] = new Step("Crack eggs into bowl and beat with heavy cream.");
+        recipe[0] = new InstructionStep("Crack eggs into bowl and beat with heavy cream.");
         recipe[1] = new HotPlateStep("Pour eggs into frying pan, and heat over medium heat.", HotPlateStep.LOW);
+        recipe[1].setContext(this);
         recipe[2] = new ToastStep("While eggs are cooking, toast bread.");
-        recipe[3] = new Step("Spread butter onto toast, and enjoy eggs with toast.");
+        recipe[2].setContext(this);
+        recipe[3] = new InstructionStep("Spread butter onto toast, and enjoy eggs with toast.");
 
     }
 

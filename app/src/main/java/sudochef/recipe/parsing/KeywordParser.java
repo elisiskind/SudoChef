@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 
+import sudochef.guide.InstructionStep;
 import sudochef.guide.PreheatStep;
 import sudochef.guide.Step;
 
@@ -73,7 +74,7 @@ public class KeywordParser {
             if(temp != "") { return new PreheatStep(stepString, Integer.parseInt(temp)); }
         }
 
-        return new Step(stepString);
+        return new InstructionStep(stepString);
     }
 
 }

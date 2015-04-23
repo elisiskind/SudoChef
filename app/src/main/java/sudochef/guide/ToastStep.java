@@ -18,7 +18,8 @@ public class ToastStep extends Step {
     @Override
     public void execute() {
         if(!this.executed) {
-            super.execute();
+            this.executed = true;
+            Log.d("SC.ToastStep","SUP");
             Toast.makeText(getContext(), "Sending preheat signal to oven", Toast.LENGTH_SHORT).show();
             new AsyncToastSignal().execute();
             Log.i("Preheat", "Sending toast signal");

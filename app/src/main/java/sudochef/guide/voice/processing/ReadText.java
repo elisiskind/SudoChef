@@ -84,17 +84,17 @@ public class ReadText implements OnInitListener
         @Override
         protected Boolean doInBackground(String... text) {
             try {
-                Log.d(TAG, "READING TEXT");
+               // Log.d(TAG, "READING TEXT");
                 while(tts.isSpeaking()){
                     wait();
                 }
                 if (!tts.isSpeaking()) {
-                    Log.d(TAG, "Speaking" + text[0]);
+                 //   Log.d(TAG, "Speaking" + text[0]);
                     tts.speak(text[0], TextToSpeech.QUEUE_FLUSH, null);
                 }
                 else
                 {
-                    Log.d(TAG, "tts is already speaking");
+               //     Log.d(TAG, "tts is already speaking");
                 }
             } catch (Exception e) {
             }

@@ -33,8 +33,10 @@ public class HotPlateStep extends Step {
 
     @Override
     public void execute() {
+        Log.d("SC.HotPlateStep", "SUP");
+
         if(!this.executed) {
-            super.execute();
+          //  super.execute();
 
             Toast.makeText(getContext(), "Sending preheat signal to hot plate", Toast.LENGTH_SHORT).show();
             new AsyncPreheatSignal().execute(setting);

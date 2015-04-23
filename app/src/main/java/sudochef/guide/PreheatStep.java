@@ -24,7 +24,7 @@ public class PreheatStep extends Step {
     @Override
     public void execute() {
         if(!this.executed) {
-            super.execute();
+            this.executed = true;
             Toast.makeText(getContext(), "Sending preheat signal to oven", Toast.LENGTH_SHORT).show();
             new AsyncPreheatSignal().execute(temp);
             Log.i("Preheat", "Sending preheat signal: " + temp);
